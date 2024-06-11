@@ -1,0 +1,184 @@
+CLR stands for Common Language runtime is execution runtime for .NET framework
+CLR does:
+	Memory management
+	Garbage Collection
+	Just in time compiler
+	Exception Handling
+.NET : Not cross platform but .NET core is cross platform
+----------------------------------------------------
+Major Components of .NET framework:
+CLR , Base Class Library , Framework Class Library
+----------------------------------------------------
+CLS : Common Language Specification
+CLS defines common ways to define methods and other entities so that the MSIL code of all
+languages across the .NET framework is similar for interporatbility
+-------------------------------
+Memory management is also done through the garbage collection in .NET framework
+Objects are allocated space in managed in heap and the memory is freed accordingly using garbage collection
+-------------------------------
+CTS : Common Type System
+1.Part of CLR
+2.CTS defines how types are declared, used, and managed in the runtime. By providing a standardized type system,        
+CTS ensures that objects written in different programming languages can interact with each other, thus   
+facilitating cross-language integration and interoperabi
+3.For example in VB might define Integer and in C# it can be int but internally they both map to Int32 in CLR
+--------------------------------
+JIT : Just in time Compiler
+Just in time compiler is a part of CLR that converts the MSIL code to native code
+Just in time compiles the program at runtime for example if a method is invoked
+it is compiled and run-time optimized at that time not before 
+the optimizations may include unrolling loops , inlining the methods etc..
+This converted native code is cached for future use
+Types include:
+Pre : Compiled before hand 
+Ecno : Less optimized code(as and when required)
+Normal : More optimized code(as and when required)
+JIT has a overhead that normal compilers do not have during runtime which might make program slower 
+--------------------------------------
+Type safety : Ensures the code adheres to strict type rules 
+preventing type errors and improving security.
+Strongly type : Checks are performed at compile time
+Type inferences like var are also checked at compile time
+Implicit casting is only done when there is no chance of data loss 
+Otherwise casting needs to be done explicitly
+Delegates are also type safe
+Type safety during runtime with use of 'is' keyword
+---------------------------------------
+Managed code is targeted at CLR 
+When languages in .NET compile they are converted to IL(MSIL)
+it's a bytecode like language that is platform portable 
+this is then converted to native code by CLR's components
+CLR does the runtime optimizations with a componenet JIT
+also manages memory and garbage collection is also done by CLR
+so any code that is part of CLR programmer don't need to worry about the low level programming
+But it has runtime overhead
+Unmanaged code is directly converted to native by compiler and OS executes it
+-------------------------------------------
+When using Properties with backing fields DO NOT use semi-colon after get or set block
+class members and instance members
+class members are initialized by class constructor of that class
+instance memberes are initialized by instance members of that class
+YOU CAN NOT INVKOKE CLASS(STATIC) CONSTRUCTOR EXPLICITLY
+HOWEVER YOU CAN INITIALIZE VALUES BY OVERLOADING THE DEFAULT STATIC CONSTRUCTOR	
+Constructors do not have modifiers(static)
+DO NOT FORGET ACCESS MODIFIERS ARE PRIVATE BY DEFAULT IN C#
+Calling one constructor from another one using this(Constructor chaining) OR base
+Copy constructor takes in object of similar class and copies all the values to object in creation
+Constructors types : Copy,Static,Private,Parameterized,Default
+const : Implicitly static and have to be defined(initialized) at the definition
+a reference variable can only be defined null if it is constant(mostly used for primitives)
+readonly can be initialized at definition or constructor so it can be class or instance variable
+readonly is also used on more complex types like classes or structures not just primitives
+readonly is resolved at runtime const at compile time so better performance wise is const
+-------------------------------------------------------------------------------
+struct are used in C# to store small number of states with small amount of behavior
+struct can implement interfaces but can not inherit classes or other structures
+they can not have protected fields or properties or methods neither can it be static
+the default constructor(parameterless constructor can not be changed)
+value type and stored on stack always copied by value(unless specified explicitly)
+so heavy structures should not be made and generally make fields immutable using readonly
+It can have indexers
+------------------------------------------------------------------------------------
+Encapsulation is binding the state(fields) and behavior(methods) as a single entity
+Programatically this can be achieved in C# using namespaces and classes
+Other aspect of Encapsulation invlolves restricting the access to entities of a class
+using access modifiers like private,public,internal,protected and internal protected
+--------------------------------------------------------------------------------------
+Abstraction is the process of hiding complex details of system and exposing only the
+essential features 
+Abstraction is design level issue and Encapsulation is Implementation level hiding
+------------------------------------------------------------------------------------
+Interfaces can not have fields all the methods are abstract and public and you 
+do not need to override in child class
+It is a contract,it does not have a constructor 
+You can define explicit interface IInterface.Method() even without a second interface
+conflicting method
+If a method is defined explicitly only the reference of interace where the method is defined can accces it
+not even an interface that implements this interface
+--------------------------------------------------------------------
+Use abstract classes when you have a shared heirarchy,you need basic implementation
+and you want to add common functionality in future without breaking code(versioning)
+Interfaces are used when we want different class heirarchies to enforce some functionality
+Multiple inheritance
+--------------------------------------------------------------------
+You can inherit a class,interface or a abstract class on an abstract class
+access modifiers can be internal,protected or public in abstract classes
+by default in interfaces they are public and can not be changed
+------------------------------------------------------------------
+Method Overloading : Same name but different number/order/type of parameters
+		     Not dependent on return type
+		     Which method to invoke is resolved at compile time itself
+		     Compile time polymorphism/Static binding
+Use is to reuse and reduce redundancy makes the code more intuitive
+Method overriding : Same signature as parent class just use of override keyword
+		    Resolved at runtime/Runtime polymorphism/Dynamic method dispatch
+		    Use of parent reference and object of child still invokes child methods
+Use is to create flexibility(since methods are resolved at runtime depending on object)
+Loose coupling since the internal details of implementation can be avoided we can pass
+Object of child class as an argument in a function parameter and can still use child's method
+this creates loose coupling
+-------------------------------------------------------------------------
+Enums are set of named constants,value type entities
+Setting [Flags] attribute means enum can have bit wise operations
+By default underlying values of enums are integer
+Typecast to integer directly using (int)
+To String:
+string dayString = "Friday"
+Days d = (Days)Enum.Parse(typeof(Days),dayString)
+Console.WriteLine(d) // gives Friday
+Enum.Parse returns object type
+------------------------------------------------------------------------
+Delegates are pointers to the functions when we define a delegate internally
+a class is created and instance of this class actually stores the references
+of methods that have same signature as the delegate definition
+Delegates are immutable and type safe and are used for callbacks in C#
+Multicast delegates are used for event handling(store reference of multiple methods)
+In event handling mechanism of C# delegates act as a pipeline in connecting
+evenhandler and eventraiser
+Assign a method first using = , and then add methods can't directly start using +=
+Delegate example : public delegate void A()
+A a(instance of delegate) a.GetInvocationList() returns a ArrayList of method references
+Callbacks are passed as arguments to the methods after completion of a task callbacks are
+called to notify the caller of these methods
+----------------------------------------------------------------------------
+Events are way for classes to notify each other when there is some change in the state of object
+Publishers raises an event when something that the subscriber might be interested in happens
+Events enable a decoupled communication between classes
+Events internally use delegates,Events can only be invoked inside the class they are defined in
+not even the child class can raise the events
+-----------------------------------------------------------------------------
+Procedural programming : Methods can be called directly(static inside a static)
+C# is OOP based language but not completely since we can use Functional programming using delegates
+Namespaces are used to organize code in C# a namespace consists of multiple classes,namespace,interfaces,
+delegates..etc
+Using aliases in C# namespaces
+using alias = MyOrganization.AnotherNamespace
+alias.ClassOfAnotherNamespace a = new alias.ClassOfAnotherNamespace()
+Partial classes(can be structure or interface too) are same class split in different files this is done if the class is huge
+to increase the readability if there is auto generated code it also helps with seperation of auto generated and custom code
+WinForms is example
+Partial methods are defined in partial classes and can be split across different partial classes implementation is optional
+If it is not implemented instance of method calling are removed at compile time inherently private method
+-----------------------------------------------------------------------------------------------------------
+throw : Just throws exception that it got to the next calling method
+throw ex : Changes the StackTrace do not use
+Inner exceptions is to provide more context about what caused an exception to be thrown
+one piece of code catches exception and throws a more specific exception
+by including orignal exception as inner exception this helps in our understanding of stack of 
+function calls too
+--------------------------------------------------------------------------------------
+is operator checks if object is of specific type or not 
+as operator converts to compatible types
+If multiple manipulations use StringBuilder and Thread safe use String
+---------------------------------------------------------------------------------
+Value types store the value directly but reference types store the reference of object in memory
+value types are stored on stack but the object that the references refer to are stored in heap
+assigning value type to other value type creates a copy on stack
+but references point to same object
+Boxing is converting value to reference by assigning memory in heap
+Unboxing is converting reference to value 
+--------------------------------------------------------------------------------
+Sealed has to exist with override
+A method can not be new and sealed
+Func delegate has to return something(can not be void)
+
