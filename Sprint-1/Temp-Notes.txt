@@ -20,7 +20,7 @@ CTS : Common Type System
 1.Part of CLR
 2.CTS defines how types are declared, used, and managed in the runtime. By providing a standardized type system,        
 CTS ensures that objects written in different programming languages can interact with each other, thus   
-facilitating cross-language integration and interoperabi
+facilitating cross-language integration and interoperablity
 3.For example in VB might define Integer and in C# it can be int but internally they both map to Int32 in CLR
 --------------------------------
 JIT : Just in time Compiler
@@ -169,6 +169,7 @@ function calls too
 --------------------------------------------------------------------------------------
 is operator checks if object is of specific type or not 
 as operator converts to compatible types
+only works with reference or nullable types
 If multiple manipulations use StringBuilder and Thread safe use String
 ---------------------------------------------------------------------------------
 Value types store the value directly but reference types store the reference of object in memory
@@ -181,4 +182,14 @@ Unboxing is converting reference to value
 Sealed has to exist with override
 A method can not be new and sealed
 Func delegate has to return something(can not be void)
+Garbage collection:
+The very first step is garbage collector is invoked when there is a shortage of memory for the program
+It looks for references that the program can not reach and then it starts to collect them freeing up the memory
+The heap area is divided such that there are 3 generations Generation 0 is the place where the Garbage Collector looks
+for the stray references initially then it goes to Generation 1 and then Generation 2 the order is such that
+Genreation 2 stores the objects that are going to be needed by program in future for long term so they are least frequently collected
+After it frees memory it performs compaction to avoid any external fragmentation
+We should use Dispose and use GC.SupressFinalize()
+destructor is also called Finalizer()
+Finalize method call internally all the methods that are available to use Finalize()
 
