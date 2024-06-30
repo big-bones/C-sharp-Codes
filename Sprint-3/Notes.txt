@@ -97,3 +97,14 @@ LINQ has a provider that connects LINQ queries and the data sources
 We don't use sql syntax for insertion in the db we only use method syntax
 method syntax are generally used when we want to insert,update or delete 
 we can use both method syntax for querying,join and grouping functions
+SelectMany is used to comprees a collection in a single IEnumerable type to iterate
+Select just transforms using lambda
+Just use normal join like queries to join multiple tables
+Join is used for inner join
+GroupJoin is used for left join 
+When you use group by with multiple grouping attributes you need a anonymous object
+same case with select too
+when we store the grouped data in some temp variable like g
+it consits of the key(what you used in group by example departmentID)
+and the list of all the employees then present in that department
+use ToList on this g in the The g is called IGrouping type
