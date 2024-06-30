@@ -1,0 +1,144 @@
+Generics use:
+Reusable codes -> You can use any defined tye
+Type safety over object types -> Same types are going to be added to the collection as defined statically and it would accordingly resolved at compile-time
+Boxing and Unboxing overheads -> Use of value types leads to boxing operation because they have to be converted to reference types and to perform operation
+Maintainable -> Code is not very long now
+Extensible API creation -> No need to modify core logic we can add new components using same core logic
+we need unboxing
+Non-generic store types as objects 
+Nullable types are instance of System.Nullable<T> struct
+For a nullable type we can use .HasValue property to check if it has a values or else a null
+If a class implements multiple interfaces and inherits one class that class comes first and later we get interfaces
+where T : struct(small s) implies any value type as well as custom structs(also value type are possible)
+Generic interfaces are used in situations where you want to guarantee that a particular class 
+contains particular methods, but you want to still allow the types of those methods to be defined 
+dynamically
+as keyword is used to cast objects
+Type constraints in generic:
+class A<T> where T:struct
+struct allows for non-nullable value types and user defined struct
+where T:class
+it means that the T should be reference type can be delegate,interface,class OR arrays
+where T : new()
+type argument should have a parameterless constructor
+This is used in factory pattern by craetefactory to return a new instance of the class this can be generic now
+where T : <base class>
+only base class and it's derived classes are allowed nothing else is allowed
+where T : <interface>
+the type argument must implement the given interface
+multiple constraints:
+where T : class , IMyInterface , new()
+Order of multiple constraints:(Otherwise compilation fails)
+where T : class/struct , <base class> , <interface> , new()
+IEnumerable is a base interface for all the non-generic collections
+IEnumerable<T> is a child of IEnumerable and is a base for all the Generic Collections
+ICollection<T> does not directly implement ICollection
+Neither does IList<T> directly implement IList
+but List<T> implements ICollection<T>,ICollection and IList<T> and IList for backward compatiblity with non-generic
+The non-generic interfaces are defined explicitly
+ICollection<T> has methods to Add,Remove,properties like Count,ReadOnly...
+IList<T> additionaly has a indexer
+IDictionary<KeyValuePair<T val,T key>> implements similar ICollection<KeyValuePair<T1 key,T2 value>> and a same IEnumerable interface
+These interfcaes do not support Covariance and Contravariance
+Queue is independent collectin and does not implement IList or IDictionary interfaces
+It implements ICollection<T> and in return IEnumerable<T> and IEnumerable
+ISet<T> implements ICollection<T> and in return IEnumerable<T> and IEnumerable
+HashSet<T> implements ISet<T> and in return all the methods of precceding interfaces
+IComparable<T> has public int CompareTo() method 
+ICompare is a non-generic version that takes Object type as a parameter
+CompareTo return 1 if you want the current object after the parameter object
+CompareTo return -1 if current object is to be before the parameter object
+CompareTo return 0 when default ordering is OK
+We use IComparer when we want multiple sorting behaviors like maybe not just based on age but also name etc...
+since IComparable only provides one way to sort
+ADO .NET is not a API in general sense but it has objects that expose the data for access to programmers
+ADO .NET classes are found in System.Data.dll and integrated with System.XML.dll
+ExecuteReader returns SqlDataReader used in select queries readonly forward iterator
+ExecuteNonQuery used in DML commands returns the number of rows affected(insert,update,delete) queries
+ExecuteScalar used when we want to return a value for aggregate function
+ExecuteXmlReader returns Xml reader after retriving XML data from table
+DataReader opens a connection to the SQL server and keeps the connection till we are finsihed reading data from the buffer
+and the buffer is empty the buffer is on SQL server side it's a forward read-only iterator provided by DataReader
+this is the connected approach(Connection is open through the process of reading the data)
+Helps when we have small data is also more memory efficient for the program
+DataAdapter opens a connection to Database and gets a data in DataSet that can be manipulated later
+then the database is updated
+DataSet is basically a collection of tables from different data sources that DataAdapter got
+We can have co-relation in these using reference keys
+It contains multiple DataTable objects
+Each DataTable object has multiple DataRow objects and DataColoumn is created to assign data types using typeof operator
+DataRelation is used to represent relation between DataTable in dataset
+ADO .NET gives more freedom and is a low level API offers fine grained control
+It is also performance optimal
+Entity is full ORM(Object Relation Model) that is ease of use oriented you do not need to write SQL queries
+this is a high level of abstraction
+Dapper achieves something in between with ease of use and performance efficiency
+SQL server is a SQL RDBMS that has components like Database Engine and SSMS that help in giving complete Database ecosystem to developer
+SQL stored procedures are bunch of precompiled SQL statements on SQL server
+These can be invoked as and when required using C# program or directly on server
+They encapsulate complex logic and multiple statements that helps to reduce traffic(these statements would require to maintain a connection)
+Reusability too
+We can also control the access to these making them secure
+IEquatable<T> is a similar method IComparable<T> it is implemented on the class that we want to check for and implements
+public bool Equals() method this will get the priority even if you have overriden the object class Equals method
+When using HashSet it checks for HashCode first if the HashCode matches with something already in the HashSet then Equals method is invoked
+otherwise if they are not equal Equals method IS NOT EVEN CHECKED(VERY IMPORTANT TO OVERRIDE GETHASHCODE() METHOD WHILE USING HASHSET)
+IEqualityComparer<T> implemented like IComparerer<T> on a different class that has Equals(T a,T b) method and GetHashCode(T a)
+The object of the class that implements IEqualityComparer will be passed in the constructor
+Cloning is used when we have resource or time consuming object creation process
+When we want to preserve the state of object
+IClonable has one method object Clone()
+Private assemblies are one copy for each application
+Localised and easy to deploy with the application
+Redundant and Hard to manage if it is changed(we have to change for all applications)
+Versioning: can use it's own version
+Only one instance shared across different applications stored in Global Assembly Cache(GAC)
+Version:Multiple versions of same dll can co exist
+Deployment requires strong naming 
+Strong naming : Assign a key(public and private) to make a unique identity
+closures are a feature that allows a method to capture variables from its enclosing scope 
+and retain access to them even after that scope has exited
+If the captured variable is mutable, changes to it will be reflected in the closure.
+The lifetime of variables is extended beyond it's scopes
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Reflection
+Advantages:Help us inspect metadata including types,methods,properties..etc
+this can be useful to create a plugin since we do not know the code structure
+Getting information at runtime helps with Logging
+When loading something from other source(ex database) for which we do not have complete metadata late binding helps since we can invoke 
+types,methods etc at runtime
+Disadvantages:Performance overhead and slow because everything happens at runtime.
+Security risks since it bypasses the encapsulation and access modifiers
+The code does not have support of compile time checking and can lead to issues later and also it is not easy to understand or maintain
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Attributes
+Attributes are a feature that allows you to add metadata to your code.This metadata can then be retrieved at runtime using reflection. 
+Attributes provide a way to associate declarative information with code elements (assemblies, types, methods, properties, etc.) in a manner that is accessible both at compile-time and runtime.
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+SqlCommandBuilder is craeted and passed a reference of created SqlDataAdapter this automatically creates insert,update,delete commands
+for use like you can add new row change the data etc...
+without this CommandBuilder it does not work
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+ds.Tables[0].Select($"id = {id}") for any value even salary = {salary} it returns all the values that are having id as given or salary
+use row.Delete()s to actually delete the value from database just removing from collection does not work SqlCommandBuilder updates the status accordingly
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Objects in ADO .NET:
+Connection,Command,CommandBuilder,DataReader,DataAdapter,DataSet,Transaction,Parameter
+SqlParameter object can only be associated with one SqlCommand object
+MemberwiseClone also returns object type
+for stuff like DataSet,DataTable,DataRow,DataRelation WE DO NOT USE SQL BEFORE
+DataRelation d = new DataRelation("Relation-Name",coloumn(primary-key),coloumn(foreign-key));
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+Logging is used to give 
+Logging : Serilog
+Structured logging(not just limited to text can include JSON..etc)
+Sinks:destination of log messages
+Enrichers:additional info(which thread,machine name..)
+Log levels : Verbos,Debug,Information,Warning,Error,Fatal
+Log.Logger = new LoggerConfiguration()
+	     .MinimumLevelDebug()
+	     .EnrichWithMachineName()
+	     .WriteToFile("logs/myapp.txt", rollingInterval: RollingInterval.Day)
+	     .CreateLogger()
+Use Log.Information(),Log.Warning()....etc
+Log.CloseAndFlush()

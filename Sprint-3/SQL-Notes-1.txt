@@ -1,0 +1,49 @@
+Constraints:
+Unique,Not Null,PK,FK,Check,Default
+CREATE TABLE Customers
+(
+   CustomerId INT NOT NULL,
+   CustomerName VARCHAR(100) NOT NULL,
+   Email VARCHAR(100) UNIQUE,
+   Age INT CHECK (Age>=18)
+   PRIMARY KEY (CustomerId)
+);
+CREATE TABLE Orders
+(
+   OrderId INT NOT NULL,
+   OrderDate DATETIME NOT NULL,
+   CustomerId INT,
+   PRIMARY KEY (OrderId),
+   FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId)
+);
+CREATE TABLE EMPLOYEE(
+   AGE INT NOT NULL DEFAULT 20
+)
+------------------------------------------------------------------------------------
+DML commands
+ALTER TABLE Employees
+ADD CONSTRAINT FK_Employees_Department FOREIGN KEY (DepartmentID) REFERENCES 
+Departments(DepartmentID)
+FK_Employees_Department is the name of the FK
+
+We can use DROP with any DB object
+DROP OBJECT_TYPE OBJECT_NAME
+ex : DROP TABLE EMPLOYEE
+     ALTER TABLE EMPLOYEES
+     DROP CONSTRAINT FK_EMPLOYEES_DEPARTMENT
+Name of the FK is usually table that has a foregin key to the table that has primary key
+
+To rename use a stored procedure sp_rename
+just execute using exec sp_rename 
+sp_rename 'Employees' 'Staff'
+sp_rename 'Employees.Salary' 'MonthlySalary' 'Column'
+------------------------------------------------------------------------------------
+SELECT TOP (5) orderid, orderdate, custid, empid
+FROM Sales.Orders
+ORDER BY orderdate DESC (This orders the table and then gives the output)
+------------------------------------------------------------------------------------
+SELECT TOP (1) PERCENT orderid, orderdate, custid, empid
+FROM Sales.Orders
+ORDER BY orderdate DESC
+------------------------------------------------------------------------------------
+

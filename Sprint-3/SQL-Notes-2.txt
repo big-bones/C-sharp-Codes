@@ -1,0 +1,249 @@
+--Employees with Max salary
+select * from Employees
+where Salary = (select Max(salary) from Employees)
+
+--Department Name for Employee using Joins
+select Employees.EmployeeName,Departments.DepartmentName
+from Employees left join Departments on Employees.DepartmentID = Departments.DepartmentID
+
+--Department Name for Employee with Subquery(should not include null departments in employee)
+select Employees.EmployeeName,(select Departments.DepartmentName from Departments 
+							   where Employees.DepartmentID = Departments.DepartmentID)
+from Employees
+
+--Select the details of employees that have salary greater than the average of their department salary
+select e.EmployeeName,e.Salary,e.DepartmentID
+from Employees e
+where e.Salary > ( select AVG(salary) from Employees 
+					group by Employees.DepartmentID 
+					having Employees.DepartmentID = e.DepartmentID 
+				)
+
+--Same approach using where
+SELECT EmployeeName, salary, DepartmentID
+FROM Employees e
+WHERE salary > (SELECT AVG(salary) FROM Employees 
+WHERE DepartmentID = e.DepartmentID);
+
+--Departments that have Average salary greater than the average salary of all employees
+select distinct Departments.DepartmentID,Departments.DepartmentName,AVG(Employees.Salary)
+from Departments join Employees
+on Departments.DepartmentID = Employees.DepartmentID
+group by Departments.DepartmentID,Departments.DepartmentName
+having avg(Employees.Salary) > (select avg(salary) from Employees)
+
+--Departments that have Average salary greater than the average salary of all employees
+select Employees.DepartmentID from Employees
+group by Employees.DepartmentID
+having avg(Employees.Salary) > (select avg(salary) from Employees)
+
+Subquery that returns multiple rows but one column use alias and treat as table 
+select Employees.EmployeeName,Employees.EmployeeID,Employees.DepartmentID
+from Employees join (select Departments.DepartmentID as ID from Departments where Departments.Budget > 200000) as D
+on Employees.DepartmentID = D.ID;
+
+SELECT EmployeeID, EmployeeName 
+FROM Employees 
+WHERE DepartmentID IN (SELECT DepartmentID FROM Departments WHERE Budget > 200000);
+
+
+------------------------------------------------------------------------------------------------------------------
+--stored procedures using temporary tables
+
+alter procedure sp_temp_table_example
+(@DepartmentID int)
+as
+begin
+
+	create table #employee_data(
+		EmployeeID int,
+		EmployeeName varchar(20),
+		DepartmentID int,
+		Salary decimal(10,2)
+	);
+
+	create clustered index temp_table_index
+	on #employee_data(EmployeeID)
+
+	insert into #employee_data(EmployeeID,EmployeeName,DepartmentID,Salary)
+	select EmployeeID,EmployeeName,DepartmentID,Salary 
+	from Employees where Employees.DepartmentID = @DepartmentID
+
+	select * from #employee_data
+
+	drop table #employee_data
+
+end
+
+exec sp_temp_table_example 2
+------------------------------------------------------------------------------------------------------------------
+Raise error takes the message string,severity level(16),state(1) which is good enough
+
+
+alter procedure sp_change_salary(
+	@employee_from_id int,
+	@employee_to_id int,
+	@salary_change decimal(10,2)
+)
+as
+begin 
+	declare @row_count_from_change int
+	declare @row_count_to_change int
+	declare @temp_storage decimal(10,2)
+	begin try
+	begin transaction
+		select @temp_storage = salary from employees 
+		where EmployeeID = @employee_from_id
+		if @temp_storage >= @salary_change
+		begin
+			set nocount on;
+			update employees
+			set salary = salary - @salary_change
+			where employeeID = @employee_from_id
+			set @row_count_from_change = @@ROWCOUNT
+
+			update employees
+			set salary = salary + @salary_change
+			where employeeID = @employee_to_id
+
+			set @row_count_to_change = @@ROWCOUNT
+
+			if @row_count_from_change = 1 and @row_count_to_change = 1
+			begin 
+				COMMIT TRANSACTION
+				set nocount off
+				print 'Success'
+			end
+			else
+			begin
+				RAISERROR('Wrong updates...',16,1)
+			end
+
+		end
+		else
+		begin
+			RAISERROR('Insufficient Balance...',16,1)
+		end
+	end try
+	begin catch 
+		ROLLBACK TRANSACTION
+		set nocount off
+		print 'Error Occurred: ' + ERROR_MESSAGE()
+	end catch
+end
+
+exec sp_change_salary 4,5,4000
+------------------------------------------------------------------------------------------------------------------
+This deletes all the duplicates based on some condition(here we have employee name)
+
+--delete from Employees
+where EmployeeID in (
+	select EmployeeID from Employees
+	where EmployeeName = 'A'
+	order by EmployeeID
+	offset 1 rows
+)
+
+--With CTE and Window Functions
+with cte_delete_duplicates
+as(
+	select employeename,departmentid,employeeid,
+	row_number() over(partition by employeename order by employeeid) as row_num
+	from employees
+)
+delete from employees
+where employeeid in (
+	select employeeid
+	from cte_delete_duplicates
+	where employeename = 'A' 
+	and row_num > 1
+)
+
+------------------------------------------------------------------------------------------------------------------
+
+alter function dbo.Get_Employee_Salaries()
+returns table
+as
+	return(
+		select employeeID,salary,ManagerID from
+		Employees
+	)	
+
+
+select * from dbo.Get_Employee_Salaries()
+
+alter procedure calculate_salaries_by_group
+as
+begin
+	set nocount on;
+	select ManagerID,sum(salary)/count(*) as average_salary 
+	from dbo.Get_Employee_Salaries()
+	group by ManagerID
+end
+
+exec calculate_salaries_by_group
+------------------------------------------------------------------------------------------------------------------
+--Sample Code for Common Table Expression
+with cte_sales_change(employee,saleamount,saledate,previous_sales)
+as (
+	select employee,saleamount,saledate,
+	 case 
+	 when lag(saleamount,1) over(partition by employee order by saledate) is not null then lag(saleamount,1) over(partition by employee order by saledate)
+	 else 0
+	 end as previous_sales
+	from sales
+)select * from cte_sales_change
+------------------------------------------------------------------------------------------------------------------
+--Highest Employee Salary Per Department
+
+with cte_highest_department_wise_salary
+as (
+	select employeeid,employeename,departmentid,salary,managerid,
+	row_number() over(partition by departmentid order by salary desc) as row_num
+	from Employees
+)
+
+select employeeid,employeename,salary,departmentid
+from Employees where employeeid in (
+	select employeeid from cte_highest_department_wise_salary
+	where row_num = 1
+)
+order by EmployeeID
+
+--Without CTE but does not include the departments where departmentID is null
+
+select e.EmployeeName,e.Salary from
+Employees e where EmployeeID in (
+	select MAX(t.EmployeeID) from Employees t
+	group by t.DepartmentID
+	having t.DepartmentID = e.DepartmentID
+)
+------------------------------------------------------------------------------------------------------------------
+--average salary per department
+
+select employeeid,employeename,departmentid,salary,
+	avg(salary) over(partition by departmentid) as average_salary
+from Employees
+
+select departmentid,avg(salary) as average_department_salary
+from Employees 
+group by DepartmentID
+------------------------------------------------------------------------------------------------------------------
+Rank : Assigns same rank to the rows that have same value in the column that was used for order by
+Row_Number : Assigns distinct values based on rows in a group
+Dense_Rank() : Same as rank but does not skip values for example 2 entries with rank one then the next assigned values
+is 3 in Rank() but 2 in Dense_Rank()
+You have to use order by otherwise it does not work
+
+select employeename,employeeid,departmentid,salary,managerid,
+row_number() over(partition by departmentid order by managerid) as rank_number
+from employees
+
+select employeename,employeeid,departmentid,salary,managerid,
+rank() over(partition by departmentid order by managerid) as rank_number
+from employees
+
+select employeename,employeeid,departmentid,salary,managerid,
+dense_rank() over(partition by departmentid order by managerid) as rank_number
+from employees
+------------------------------------------------------------------------------------------------------------------

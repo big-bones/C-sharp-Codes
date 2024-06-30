@@ -1,0 +1,99 @@
+Drop : Deletes the table memory completely including triggers and views or any constraints associated with it
+Truncate : Deletes all rows by default can not use where condition here the memory of table still remains with database
+Delete : We can use where condition here to delete selectively
+delete is slower than truncate because it logs the complete info whereas truncate only logs partial info
+In all the cases if the commands are written inside transaction we can retrive all the data in case of a rollback
+DDL commands : Create , Alter , Drop , Truncate , Rename
+In every DDL command we have a general idea of OPERATION TABLE TABLENAME...
+DML commands : Insert , Update , Delete
+where is to be used before group by then you can use having
+where is used to simply filter the rows but
+having is used after group by used with aggregate functions 
+DISTINCT clause keeps only one NULL in the result
+varchar and nvarchar
+varchar : stores data for non-unicode(ascii values)
+nvarchar : stores the data for unicode as well as non-unicode
+varchar takes 1 byte to store a character and nvarchar takes 2
+as keyword defines that the body of the procedure has started and the parameters have ended
+begin officially starts the stored procedure
+EXISTS checks if subquery returns at least one row
+it is used for optimization of the query
+-----------------------------------------------------------------------------------------------------------
+Aggregate functions can be used with where clause directly without having to use group by explicitly
+because where also performs the task of clubbing something with same attribute together
+-----------------------------------------------------------------------------------------------------------
+temporary tables in sql are used to store the complex results of queries temporarily to optimize the query
+sometimes or in the stored procedures or some session specific data is required to be temporarily stored
+Local temporary tables are confined to the session that created them and are automatically dropped when the session ends.
+Global temporary tables are accessible to any session and remain until the session that created them ends and no other sessions are using them.
+temporary tables are stored in tempdb database
+you can create indexes,pk,constraints etc.. on them
+local scope temp tables : create table #table_name
+global scope temp tables : create table ##table_name
+-----------------------------------------------------------------------------------------------------------
+Functions and Stored procedures are both stored in db by precompiling and creating a execution plan
+when the stored procedure or a function is invoked the execution plans are used to
+(they already have parsed and compiled code) this helps to speed up the process
+Functions are used to return a single value or a table 
+They can not change the database using insert update or delete 
+A stored procedure can do all these complex functions along with returning 
+mulitple values(using out),or returning multiple values using a temp table
+Functions are usually used inside the stored procedure,they can also be used in select statements directly
+functions are created using schemaname.Function_Name and also how they are called
+Functions are of scalar(return a single value)
+Table Valued type(returns a table)
+Transactions are directly supported by stored procedure not by Functions
+Functions don't have out parameteres either
+-----------------------------------------------------------------------------------------------------------
+Views:Updatable,Simple,Schema Binding and Materialized
+Simple Views can have any sort of aggregate function or joins
+Updatable views can not have that
+Updatable views need to have simple operations and mapping to the database columns
+Whatever are the columns the view can show can also be inserted or updated
+The view does not need to be schema bounded in order to be updatable
+Schema Binding means that the structure of underlying table can not be changed it can not be dropped either
+It is tightly coupled with the view
+Materialized views are the views that have a physcial storage in the database and are also called indexed views
+they are schema bounded and indexed in order to be materialized views
+Advantages of views:
+Abstraction : Creates an abstraction show what is important to the user
+Data security : Access can be granted as and when needed
+Optimization : Materialized views can have indexes so complex query logic can be saved in view and 
+be made reusable
+Views can have complex operations like join and can be updatable when we use instead triggers
+It can update a single table and there can be only one instead view on the table
+-----------------------------------------------------------------------------------------------------------
+Triggers : Instead and After triggers
+Views can not have after triggers only tables do
+Views can have Instead triggers but only one is allowed of insert,update or delete(also true for tables)
+-----------------------------------------------------------------------------------------------------------
+Clustered indexes : Sort the data based on the coloumns that are part of clustered index at a physical level
+can be only one clustered index
+example consider the values 1 1 2 2 4 as the attribute/coloumn where clustered indexes are used
+this is the order in which they are also present in the memory
+if a number 3 attribute is added the memory reallocates
+new order 1 1 2 2 3 4 changes are at memory level
+for non clustered indexes for example
+corresponding to the data we have
+B B A A C
+1 1 2 2 4
+here there would be another table that has memory reference to the actual rows but the attribute is sorted there
+example
+A  A  B  B  C
+m(2)
+here m(2) is the memory location where 2 is stored
+Clustered is only one index but non-clustered can be multiple
+It is like ICimparable and IComparer
+-----------------------------------------------------------------------------------------------------------
+LINQ : Language Integraed Query
+.Where method in LINQ takes predicate as an argument and internally has a yield return that returns
+a IEnumerable type collection which we can foreach
+This is lazy or deferred evaluation since only during foreach will the yield returns in the methods be executed
+Advantages of LINQ 
+Single Syntax for multiple data sources
+Compile-time checking(over runtime exception)
+All these are Extension methods 
+LINQ has a provider that connects LINQ queries and the data sources
+We don't use sql syntax for insertion in the db we only use method syntax
+method syntax are generally used when we want to insert,update or delete 
+we can use both method syntax for querying,join and grouping functions

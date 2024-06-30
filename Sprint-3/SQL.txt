@@ -1,0 +1,66 @@
+ --select * from Books
+--select * from Authors
+
+--select books.bookname,authors.authorname from
+--books join authors on 
+--books.AuthorID = authors.authorID
+
+--create view availablebooks as
+--select * from books where isavailable = 1
+
+--select * from availablebooks
+
+--select * from sys.views
+
+--select * from authors join books
+--on authors.authorid = books.authorid
+--where price > (select avg(price) from books)
+
+--select top 1 * from books
+--order by books.bookid desc;
+
+--create procedure addbooks(
+--	@book_name nvarchar(100),
+--	@author_id int,
+--	@book_price decimal,
+--	@is_available bit
+--)
+--as 
+--begin
+--	declare @last_id int
+--	select top 1 @last_id = bookid from books
+--	order by bookid desc;
+--	set @last_id = @last_id + 1
+--	insert into books(bookid,bookname,authorid,price,isavailable)
+--	values (@last_id,@book_name,@author_id,@book_price,@is_available)
+--end;
+--go
+
+--select * from sys.procedures
+
+--exec addbooks 'Book6',1,300,1
+
+--alter function getauthorbooks(
+--	@ID int
+--)
+--returns int 
+--as 
+--begin
+--	declare @total_books int;
+--	select @total_books = count(*) from books where authorid = @id
+--	return @total_books
+--end;
+
+--select dbo.getauthorbooks(1)
+
+--select bookname,price from books
+--order by price
+--offset 2 rows
+--fetch next 3 rows only
+
+--select *,
+--	case 
+--		when price > (select avg(price) from books) then 'Expensive'
+--		else 'Affordable'
+--	end as aukat
+--from books
