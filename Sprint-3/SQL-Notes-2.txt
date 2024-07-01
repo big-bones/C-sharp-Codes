@@ -229,12 +229,6 @@ select departmentid,avg(salary) as average_department_salary
 from Employees 
 group by DepartmentID
 ------------------------------------------------------------------------------------------------------------------
-Rank : Assigns same rank to the rows that have same value in the column that was used for order by
-Row_Number : Assigns distinct values based on rows in a group
-Dense_Rank() : Same as rank but does not skip values for example 2 entries with rank one then the next assigned values
-is 3 in Rank() but 2 in Dense_Rank()
-You have to use order by otherwise it does not work
-
 select employeename,employeeid,departmentid,salary,managerid,
 row_number() over(partition by departmentid order by managerid) as rank_number
 from employees

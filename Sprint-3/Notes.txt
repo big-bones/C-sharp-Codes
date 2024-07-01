@@ -18,6 +18,9 @@ as keyword defines that the body of the procedure has started and the parameters
 begin officially starts the stored procedure
 EXISTS checks if subquery returns at least one row
 it is used for optimization of the query
+offset upar se kitne rows hatane hai
+fetch kitne fetch karna hai offset se
+this technique is called pagination
 -----------------------------------------------------------------------------------------------------------
 Aggregate functions can be used with where clause directly without having to use group by explicitly
 because where also performs the task of clubbing something with same attribute together
@@ -107,4 +110,36 @@ same case with select too
 when we store the grouped data in some temp variable like g
 it consits of the key(what you used in group by example departmentID)
 and the list of all the employees then present in that department
+Deffered Execution : Idea that the actual execution of a query is postponed until the 
+data is actually iterated over
+Query not executed until foreach is applied
+This means that data is always up to date and no unnecessary computations are done making it optimized
+Eager execution
+Use ToList() , ToArray() etc this executes the data and stores it in the temporary varialble for future use
 use ToList on this g in the The g is called IGrouping type
+IQueryable and IEnumerable are both used in LINQ queries
+IEnumerable : Used for in memory querying the operations are done in memory data 
+Supports Deffered Execution
+IQueryable is designed for remote querying like database and different data sources, also supports deffered execution
+The process of translating LINQ queries into a data source's query 
+language is known as query translation. 
+This is facilitated by IQueryable<T> through the use of expression trees.
+This translation allows complex queries to be executed efficiently on the 
+remote data source, leveraging its indexing, optimization, and processing capabilities
+By translating the query into the data source's query language,
+you minimize the amount of data transferred over the network.
+Only the necessary data is retrieved.
+Remember to use descending and not desc in Linq query ordering syntax
+-----------------------------------------------------------------------------------------------------------
+Rank : Assigns same rank to the rows that have same value in the column that was used for order by
+Row_Number : Assigns distinct values based on rows in a group
+Dense_Rank() : Same as rank but does not skip values for example 2 entries with rank one then the next assigned values
+is 3 in Rank() but 2 in Dense_Rank()
+You have to use order by otherwise it does not work
+-----------------------------------------------------------------------------------------------------------
+Backup database
+Full backup back's up complete db to the given location
+Differential Backup
+Just add option using with(option name is Differential) 
+This back's up only the changes since last backup
+You can also backup just the logs
