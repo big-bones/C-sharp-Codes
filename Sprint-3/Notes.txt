@@ -1,5 +1,5 @@
 Drop : Deletes the table memory completely including triggers and views or any constraints associated with it
-Truncate : Deletes all rows by default can not use where condition here the memory of table still remains with database
+Truncate : Deletes all rows by default, can not use where condition here the memory of table still remains with database
 Delete : We can use where condition here to delete selectively
 delete is slower than truncate because it logs the complete info whereas truncate only logs partial info
 In all the cases if the commands are written inside transaction we can retrive all the data in case of a rollback
@@ -66,9 +66,21 @@ be made reusable
 Views can have complex operations like join and can be updatable when we use instead triggers
 It can update a single table and there can be only one instead view on the table
 -----------------------------------------------------------------------------------------------------------
-Triggers : Instead and After triggers
+Triggers : Triggers are special types of stored procedures
+Useful when we want to ensure some buisness rules and to ensure integrity
+Helps with maintaining log tables corresponding to some main table
+Disadvantages:
+Overhead of after operation 
+If it contains complex data it also becomes CPU intensive
+If the trigger has association with other tables then it starts a chain reaction
+Hard to debug issues in application
+Instead and After triggers
 Views can not have after triggers only tables do
 Views can have Instead triggers but only one is allowed of insert,update or delete(also true for tables)
+inserted is a psuedo table that is limited to the existence of trigger execution so is deleted
+it contains either inserted new values or the updated values and the primary key of the table on
+which the trigger is executed
+deleted contains the old values either deleted or updated values
 -----------------------------------------------------------------------------------------------------------
 Clustered indexes : Sort the data based on the coloumns that are part of clustered index at a physical level
 can be only one clustered index
@@ -143,3 +155,56 @@ Differential Backup
 Just add option using with(option name is Differential) 
 This back's up only the changes since last backup
 You can also backup just the logs
+-----------------------------------------------------------------------------------------------------------
+Threads
+Task is an asynchronus operation that can be awaited or run in parllel with other Tasks
+Thread vs Task
+Task is preffered over thread because:
+Higher Abstraction No need to create threads on your own done internally
+It uses Thread Pooling internally for better resource management
+Exception Handling
+Coordinate using .WhenAll and .WhenAny 
+Also used in PLINQ
+Async Await is supported too
+ThreadStart can only take methods that take zero parameter and return void
+You can use a ParameterizedThreadStart that takes one parameter of type object but returns void
+By default ThreadClass does not create Background Threads
+Background Threads terminate with the calling thread
+Join is a blocking method(does not let next statements be executed till threads return)
+Join blocks the calling thread
+Sleep is also blocking it stops the execution of current thread
+By blocking it means that the current thread statements are not going to be executed after a blocking statement
+Any thread other than the current thread will be in execution
+Thread Pool :
+It maintains and manages a collection of worker threads
+It maintaints these threads throught the thread life cycle
+By defualt it creates background threads
+Tasks are queued to be executed Thread Pool would dispatch a thread for task depending on the requirment
+ThreadPool.QueueUserWorkItem() takes in input a delegate that has a signature 
+that returns void and the parameter is object type
+Use task.Wait() because it creates background threads that do not keep running after the calling thread quits
+async programming basically means non-blocking
+Improves responsiveness
+Concurrency
+async and await are used to simplify asynchronous programming.
+They allow to write async code that is easy to read and maintain, 
+resembling synchronous code structure while maintaining the 
+non-blocking behavior of asynchronous operations.
+Wait() is blocking which means that it blocks the calling thread
+But await is not blocking which means in that method the execution control won't move to the next line
+same as Wait() but now if the thread wishes to do something entirely different it can
+Task methods do not take a lambda with input parameters just the return values
+To return a values use to store it in Task<> task
+You can have a single thread executing mutliple methods and context switching accordingly
+Example using async and await is sorted
+But Task.Yield() can also be used to suspend the current execution 
+this in turn goes to the scheduler and checks what are other available for execution
+it is all decided for scheduler
+Task.WaitAll blocks the calling thread until all tasks complete, 
+whereas Task.WhenAll returns a task that can be awaited, allowing for non-blocking asynchronous code.
+syntax : 
+Task.WaitAll(a,b..)
+await Task.WhenAll(a,b...) returns as Task that is completed when all the tasks in WhenAll are completed
+Aggreate Exceptions in WaitAll and WhenAll
+
+-----------------------------------------------------------------------------------------------------------

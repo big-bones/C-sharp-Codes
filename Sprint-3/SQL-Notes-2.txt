@@ -241,3 +241,28 @@ select employeename,employeeid,departmentid,salary,managerid,
 dense_rank() over(partition by departmentid order by managerid) as rank_number
 from employees
 ------------------------------------------------------------------------------------------------------------------
+After Trigger 
+create trigger triggerAfterSalaryUpdate
+on employees
+after update
+as 
+begin
+	insert into EmployeeAudit(EmployeeID,OldSalary,NewSalary)
+	select 
+		inserted.EmployeeID,
+		deleted.Salary as OldSalary,
+		inserted.Salary as NewSalary
+	from inserted
+	join deleted
+	on inserted.EmployeeID = deleted.EmployeeID
+end
+------------------------------------------------------------------------------------------------------------------
+--Top 3 salaries from each department
+
+with cte_top_three_salaries as(
+	select EmployeeName,EmployeeId,DepartmentID,salary,
+	ROW_NUMBER() over(partition by departmentid order by salary desc) as row_num
+	from employees
+)select * from cte_top_three_salaries
+ where row_num <= 3
+------------------------------------------------------------------------------------------------------------------
