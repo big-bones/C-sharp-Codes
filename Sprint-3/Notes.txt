@@ -156,8 +156,12 @@ Just add option using with(option name is Differential)
 This back's up only the changes since last backup
 You can also backup just the logs
 -----------------------------------------------------------------------------------------------------------
-Threads
+Concurrency is basically when we want more responsiveness and progress through different tasks
+It can be on a single system using context switching
+Parallel programming is a subset of Concurrent programming which happens on different cores
+Threads(using System.Threading  and using System.Threading.Tasks)
 Task is an asynchronus operation that can be awaited or run in parllel with other Tasks
+Task is basically an abstraction a unit of work that is expected to be executed as a seperate thread
 Thread vs Task
 Task is preffered over thread because:
 Higher Abstraction No need to create threads on your own done internally
@@ -166,6 +170,8 @@ Exception Handling
 Coordinate using .WhenAll and .WhenAny 
 Also used in PLINQ
 Async Await is supported too
+Task status represents the lifecycle of state
+use 
 ThreadStart can only take methods that take zero parameter and return void
 You can use a ParameterizedThreadStart that takes one parameter of type object but returns void
 By default ThreadClass does not create Background Threads
@@ -204,7 +210,9 @@ Task.WaitAll blocks the calling thread until all tasks complete,
 whereas Task.WhenAll returns a task that can be awaited, allowing for non-blocking asynchronous code.
 syntax : 
 Task.WaitAll(a,b..)
+Task.Wait(a,b) any of the tasks is executed the Thread is unblocked
 await Task.WhenAll(a,b...) returns as Task that is completed when all the tasks in WhenAll are completed
 Aggreate Exceptions in WaitAll and WhenAll
-
+CancellationToken comes into picture to shut down long running operations
+If the operation should time out even then it can be used
 -----------------------------------------------------------------------------------------------------------
