@@ -156,11 +156,10 @@ Just add option using with(option name is Differential)
 This back's up only the changes since last backup
 You can also backup just the logs
 -----------------------------------------------------------------------------------------------------------
-Concurrency is basically when we want more responsiveness and progress through different tasks
+Concurrency is basically when we want more responsiveness system and progress for different tasks
 It can be on a single system using context switching
 Parallel programming is a subset of Concurrent programming which happens on different cores
 Threads(using System.Threading  and using System.Threading.Tasks)
-Task is an asynchronus operation that can be awaited or run in parllel with other Tasks
 Task is basically an abstraction a unit of work that is expected to be executed as a seperate thread
 Thread vs Task
 Task is preffered over thread because:
@@ -170,6 +169,8 @@ Exception Handling
 Coordinate using .WhenAll and .WhenAny 
 Also used in PLINQ
 Async Await is supported too
+Tasks offer fine grained control over threads
+Use of .ContinueWith etc..
 Task status represents the lifecycle of state
 use 
 ThreadStart can only take methods that take zero parameter and return void
@@ -192,6 +193,12 @@ Use task.Wait() because it creates background threads that do not keep running a
 async programming basically means non-blocking
 Improves responsiveness
 Concurrency
+asynchronus programming is basically a unit of work can execute independently of the main thread
+the main thread can continue to do it's work
+when that unit is done with it's work we make can make use of whatever was done by this unit
+Multithreading deals with creation of multiple threads too but those could be executing on different functionality
+altogether and there is a major difference in how they are implemented
+Multithreading is implemented using Thread class but asynchronus is implemented using Task Parallel Library async and await
 async and await are used to simplify asynchronous programming.
 They allow to write async code that is easy to read and maintain, 
 resembling synchronous code structure while maintaining the 
@@ -229,6 +236,9 @@ TaskContinuationOptions.None -> Next task starts regardless of how previous was 
 TaskContinuationOptions.OnlyOnFaulted
 TaskContinuationOption.OnlyOnRanToCompletion
 Synchronization tools:
+If you are trying to acquire the lock then do it outside the try block
+So if there was an issue in acquiring lock itself finall does not release a lock that was not acquired
+except in SpinLocks because we have lockTaken variable there
 Lock : Lock is used as a mutual exclusion mechanism
 It is mutually exclusive(only one thread at a time can access the critical section)
 When other threads check for lock in order to enter CS if a lock is already acquired by some other thread
@@ -238,4 +248,34 @@ But Monitor gives more fine grained control however we need to release lock in c
 might create issues
 Monitor let's you use things like Pulse and Wait which is useful
 Monitor is blocking too
+SpinLocks are synchronization primitives that are non blocking they send the thread in a busy waiting state
+If the duration of locks is small it is a better option because there is a overhead of blocking the thread
+storing it's current state and then bringing to the running state again
+Semaphores are also a synchronization primitive that is usually used when we have multiple instances of
+a shared resource which means that maybe a limited number of threads can access the resource simultaneously
+we use wait to reduce the count of sempahore which indicates that an instance of the resource is acquired
+by a thread and signal to state that an instance of resource is released 
+if a thread wants the resource but currently there are no instances then it is blocked after some thread 
+releases the instane of resource using release then it gets the chance
+SempaphoreSlim is used with tasks it is lightweight and provides async functionality
+Both Auto and Manual reset events allow threads to communicate with each other via signalling
+Basically used for coordination and communication in between the threads
+Set releases threads that have accessed .WaitOne()(Basically unblocks them)
 -----------------------------------------------------------------------------------------------------------
+SOLID principles : Solid principles are design principles that make the code more understandable,flexible
+and maintainable code also needs to be reusable.
+SRP:SRP says every class should have a single responsiblity this makes the code modular and easy to test
+Open Closed Principles:Open for extension and closed for modification(entities not just classes)this is
+for the reusability
+Liskov Substitution Principle:It is an enforcement of Inheritance which is basically Is-A relationship
+It ensures that subclass can stand in for it's superclass without breaking the code(It maintains integrity)
+Interface Segregation Principle:No client should be forced to implement methods it does not use
+Instead of large interface break down the interface into smaller interfaces and implement accordingly
+Makes the code modular
+Dependency Inversion Principle:High level modules should not depend on low level modules directly both 
+should depend on abstraction(This decouples the system makes it more scalable)
+Dependency Injection:This allows a class to recieve it's dependencies from external source rather 
+than implementing itself it is implementation of Inversion of Control
+Promotes decoupling makes system modular and easier to test,scale and maintain
+IOC:Invert the control of object creation and management from the application code to a container or framework
+------------------------------------------------------------------------------------------------------------

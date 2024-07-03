@@ -16,6 +16,9 @@
 --on authors.authorid = books.authorid
 --where price > (select avg(price) from books)
 
+--select MAX(Salary) from Employees
+--where Salary <> (select MAX(Salary) from Employees)
+
 --select top 1 * from books
 --order by books.bookid desc;
 
