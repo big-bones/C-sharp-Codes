@@ -215,4 +215,27 @@ await Task.WhenAll(a,b...) returns as Task that is completed when all the tasks 
 Aggreate Exceptions in WaitAll and WhenAll
 CancellationToken comes into picture to shut down long running operations
 If the operation should time out even then it can be used
+async does not create a new thread when a method is defined async it basically means that
+if there is a something that is going to take time the thread is not going to be blocked
+that method will not be executed further if we use await but the thread that called the method would
+not be blocked
+Task.Run takes in a delegate that is not asynchronus and does not understand the concept of await
+so if the lambda of async type is not passed it does not work
+It would not wait for the tasks inside it to finish
+By default if we do not have an enum passed in ContinueWith then regardless of how the last task
+was exited(successfully or with exception) new task starts
+We have TaskContinuationOptions enum
+TaskContinuationOptions.None -> Next task starts regardless of how previous was exited
+TaskContinuationOptions.OnlyOnFaulted
+TaskContinuationOption.OnlyOnRanToCompletion
+Synchronization tools:
+Lock : Lock is used as a mutual exclusion mechanism
+It is mutually exclusive(only one thread at a time can access the critical section)
+When other threads check for lock in order to enter CS if a lock is already acquired by some other thread
+then these threads are blocked it means that they are not busy waiting now)
+Monitor is used internally by lock too
+But Monitor gives more fine grained control however we need to release lock in case of exceptions that
+might create issues
+Monitor let's you use things like Pulse and Wait which is useful
+Monitor is blocking too
 -----------------------------------------------------------------------------------------------------------
