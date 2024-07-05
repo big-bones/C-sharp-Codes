@@ -35,8 +35,8 @@ Name of the FK is usually table that has a foregin key to the table that has pri
 
 To rename use a stored procedure sp_rename
 just execute using exec sp_rename 
-sp_rename 'Employees' 'Staff'
-sp_rename 'Employees.Salary' 'MonthlySalary' 'Column'
+exec sp_rename 'Employees','Staff'
+sp_rename 'Employees.Salary','MonthlySalary' 'Column'
 ------------------------------------------------------------------------------------
 SELECT TOP (5) orderid, orderdate, custid, empid
 FROM Sales.Orders

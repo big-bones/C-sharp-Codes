@@ -182,6 +182,7 @@ Unboxing is converting reference to value
 Sealed has to exist with override
 A method can not be new and sealed
 Func delegate has to return something(can not be void)
+--------------------------------------------------------------------------------
 Garbage collection:
 The very first step is garbage collector is invoked when there is a shortage of memory for the program
 It looks for references that the program can not reach and then it starts to collect them freeing up the memory

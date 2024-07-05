@@ -1,0 +1,36 @@
+using System.Xml;
+XML is Extensible Markup Language(language that has tags)
+XML is used to store and transport data it is readable and organized
+XML vs JSON
+JSON is much more efficient since it contains less information about data
+XML contains starting and closing tags..etc
+JSON is widely preferred over XML but XML is useful if you want to enforce a
+strucutre to your data this is done using XML schema
+XML parsing:Analyze the strucutre of document,see if anything is wrong according to defined schema
+analyze what is the hierarchial relation between nodes of this schema
+DOM parsing : This stores the complete document as a tree(in memory)
+SAX parsing : Sequential parsing of each node and raise a trigger when encountered a node
+PULL parsing : Sequential parsing but allows the program a little control over what to parse next
+XML has XMLReader that is a forward only and read only cursor this relies on SAX and PULL parsing
+XMLReader.Create(xmlpath) craetes a instance of reader
+XMLDocument class stores the complete XMLDocument as a tree like structure in memory 
+it uses DOM parsing we can access any node in this tree structure using XPath querying
+we can update delete and add nodes using XDocument but since it is in memory it is not preffered for 
+large documents 
+XML reader goes node by node for parsing but at a time we might have only one node in memory so it is great
+for larger XML documents
+XMLWriter creates and adds elements,text and attributes to the XML document it adheres to strict rules
+and we can not go back(it is structured and is followed line by line)
+XPath is Xml Path language helps in querying by selecting a node or set of nodes 
+we can use it with XML document instance by using xmlDoc.SelectSingleNode(xquery/xpath)
+or multiple xml nodes by using xmlDoc.SelectNodes(xquery/xpath)
+XML schema definition document defines the structure that a XML document should adhere to to be valid
+stored as .xsd file we use xml schema language which also adheres to a fixed set of instructions
+we include this link in the root and use alias(also called prefix) to avoid conflicts
+this xsd document is referenced in root element of our xml schema and it helps us validate the document
+XDocument can be used to validate the schema just use XMLSchemaSet to load a xsd document and callback function 
+XSLT is used to transform a xml document into some other document for example HTML
+just load you xml document and load xslcompiledtransform which loads xslt document
+and then use xmlwriter to create the appropriate transformation
+we can have appendchild and createlement instance methods in xmldoc that adds a new element 
+.DocumentElemet gives the root of the xml document

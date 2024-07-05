@@ -1,16 +1,16 @@
 --Employees with Max salary
 select * from Employees
 where Salary = (select Max(salary) from Employees)
-
+------------------------------------------------------------------------------------------------------------------
 --Department Name for Employee using Joins
 select Employees.EmployeeName,Departments.DepartmentName
 from Employees left join Departments on Employees.DepartmentID = Departments.DepartmentID
-
+------------------------------------------------------------------------------------------------------------------
 --Department Name for Employee with Subquery(should not include null departments in employee)
 select Employees.EmployeeName,(select Departments.DepartmentName from Departments 
 							   where Employees.DepartmentID = Departments.DepartmentID)
 from Employees
-
+------------------------------------------------------------------------------------------------------------------
 --Select the details of employees that have salary greater than the average of their department salary
 select e.EmployeeName,e.Salary,e.DepartmentID
 from Employees e
@@ -19,13 +19,27 @@ where e.Salary > ( select AVG(salary) from Employees
 					having Employees.DepartmentID = e.DepartmentID 
 				)
 
+--Also includes the employees that do not have a department
+with cte_greater_than_average as(
+	select EmployeeName,EmployeeID,salary,
+	case
+	when DepartmentID is null then 'No Department'
+	else cast(DepartmentID as varchar(20))
+	end as Department_Name,
+	row_number() over(partition by departmentid order by salary desc) as row_num,
+	avg(salary) over (partition by departmentid) as average_salary
+	from employees
+)select * from cte_greater_than_average
+where salary >= average_salary
+
 --Same approach using where
 SELECT EmployeeName, salary, DepartmentID
 FROM Employees e
 WHERE salary > (SELECT AVG(salary) FROM Employees 
 WHERE DepartmentID = e.DepartmentID);
-
+------------------------------------------------------------------------------------------------------------------
 --Departments that have Average salary greater than the average salary of all employees
+
 select distinct Departments.DepartmentID,Departments.DepartmentName,AVG(Employees.Salary)
 from Departments join Employees
 on Departments.DepartmentID = Employees.DepartmentID
@@ -36,8 +50,9 @@ having avg(Employees.Salary) > (select avg(salary) from Employees)
 select Employees.DepartmentID from Employees
 group by Employees.DepartmentID
 having avg(Employees.Salary) > (select avg(salary) from Employees)
+------------------------------------------------------------------------------------------------------------------
+--Subquery that returns multiple rows but one column use alias and treat as table 
 
-Subquery that returns multiple rows but one column use alias and treat as table 
 select Employees.EmployeeName,Employees.EmployeeID,Employees.DepartmentID
 from Employees join (select Departments.DepartmentID as ID from Departments where Departments.Budget > 200000) as D
 on Employees.DepartmentID = D.ID;
@@ -157,6 +172,19 @@ where employeeid in (
 	from cte_delete_duplicates
 	where employeename = 'A' 
 	and row_num > 1
+)
+
+
+with cte_as_delete_all_duplicates_no_condition as(
+	select employeeid
+	row_number() over(partition by employeename order by employeeid) as row_num
+	from employees
+)
+delete from employees
+where employeeid in (
+   select employeeid from 
+   cte_as_delete_all_duplicates_no_condition
+   where employeeid > 1
 )
 
 ------------------------------------------------------------------------------------------------------------------
@@ -284,5 +312,50 @@ with cte_second_highest as(
     END AS Message
 FROM cte_second_highest
 WHERE row_num = 2 OR dept_count = 1;
+------------------------------------------------------------------------------------------------------------------
+ALTER PROCEDURE sp_employee_iteration
+AS 
+BEGIN
+    DECLARE @EmployeeID INT;
+    DECLARE @EmployeeName VARCHAR(20);
+    DECLARE @DepartmentID INT;
+
+    DECLARE iterationcursor CURSOR FOR
+    SELECT EmployeeID, EmployeeName, DepartmentID
+    FROM Employees;
+
+    OPEN iterationcursor;
+
+    FETCH NEXT FROM iterationcursor INTO @EmployeeID, @EmployeeName, @DepartmentID;
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Use CONCAT or CAST/CONVERT to concatenate strings
+        PRINT 'Employee Data ' + CAST(@EmployeeID AS VARCHAR(10)) + ' ' + @EmployeeName + ' ' + CAST(@DepartmentID AS VARCHAR(10));
+
+        FETCH NEXT FROM iterationcursor INTO @EmployeeID, @EmployeeName, @DepartmentID;
+    END
+
+    CLOSE iterationcursor;
+    DEALLOCATE iterationcursor;
+END
+------------------------------------------------------------------------------------------------------------------
+create trigger insteadofonemployees
+on employees
+instead of update
+as 
+begin
+	insert into employeelog(employeeid,employeename)
+	select employeeid,employeename
+	from inserted
+end
+------------------------------------------------------------------------------------------------------------------
+--Most expensive product in each category
+with cte_most_expensive as(
+	select ProductId,ProductName,CategoryName,Price,
+	row_number() over(partition by(Categories.CategoryId) order by price desc) as row_num
+	from Products join Categories 
+	on Products.CategoryID = Categories.CategoryID 
+)select * from cte_most_expensive where row_num = 1
 ------------------------------------------------------------------------------------------------------------------
 

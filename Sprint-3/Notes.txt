@@ -1,3 +1,31 @@
+A database that is not normalized might introduce insert,update and delete anamolies since the data is 
+redundant to avoid this we do normalization which is breaking the tables into smaller tables and joining 
+back to gain the original data back
+1NF : We should have atomic attributes(not multiple values of same attribute in same row and same column)
+Just increase number of rows to rectify and bring in 1NF
+2NF : No partial dependency between non-prime attributes and prime attributes the non-prime should fully 
+      depend on primary key only
+To convert to 2NF identify partial dependency and break the table where prime attribute is a primary key in 
+other table
+3NF : No FD between non-prime and non-prime attributes
+If this is the case again create another table where the depndecy exists and no transitive dependency
+BCNF : No FD between Non-Prime and Prime attributes
+again split the table and then join to get data
+Data partitioning : Split a large table intog groups horizontally such that each group has some connection
+for example on basis of salary range this is useful in optimizing query performance
+Data Sharding : The scope is not limited to the same table but in fact this is partitioning across
+mutliple data storages and databses this is done to make it more scalable
+Partitioning is done based on some set of attributes
+Sharding is done using shard key?
+------------------------------------------------------------------------------------------------------------
+SQL is not very good with horizontal scaling
+Ensuring data integrity can be difficult
+SQl can be slow when dealing with larger datasets
+SQL server does not support for loop
+go is a batch seperator each batch is executed simultaneously on server
+even if you execute a procedure before the definiton in script it will work
+if the procedure exists in later part of script
+------------------------------------------------------------------------------------------------------------
 Drop : Deletes the table memory completely including triggers and views or any constraints associated with it
 Truncate : Deletes all rows by default, can not use where condition here the memory of table still remains with database
 Delete : We can use where condition here to delete selectively
@@ -100,6 +128,26 @@ here m(2) is the memory location where 2 is stored
 Clustered is only one index but non-clustered can be multiple
 It is like ICimparable and IComparer
 -----------------------------------------------------------------------------------------------------------
+Rank : Assigns same rank to the rows that have same value in the column that was used for order by
+Row_Number : Assigns distinct values based on rows in a group
+Dense_Rank() : Same as rank but does not skip values for example 2 entries with rank one then the next assigned values
+is 3 in Rank() but 2 in Dense_Rank()
+You have to use order by otherwise it does not work
+-----------------------------------------------------------------------------------------------------------
+Cursors are like simple views they access the table row by row and can provide more control over the
+data manipulation
+Cursors are session specific and are not stored in database 
+They are usually slower than normal dml operations because line by line approach
+They have to deallocated and managed by user 
+DO not use 
+------------------------------------------------------------------------------------------------------------
+Backup database
+Full backup back's up complete db to the given location
+Differential Backup
+Just add option using with(option name is Differential) 
+This back's up only the changes since last backup
+You can also backup just the logs
+-----------------------------------------------------------------------------------------------------------
 LINQ : Language Integraed Query
 .Where method in LINQ takes predicate as an argument and internally has a yield return that returns
 a IEnumerable type collection which we can foreach
@@ -142,23 +190,17 @@ By translating the query into the data source's query language,
 you minimize the amount of data transferred over the network.
 Only the necessary data is retrieved.
 Remember to use descending and not desc in Linq query ordering syntax
------------------------------------------------------------------------------------------------------------
-Rank : Assigns same rank to the rows that have same value in the column that was used for order by
-Row_Number : Assigns distinct values based on rows in a group
-Dense_Rank() : Same as rank but does not skip values for example 2 entries with rank one then the next assigned values
-is 3 in Rank() but 2 in Dense_Rank()
-You have to use order by otherwise it does not work
------------------------------------------------------------------------------------------------------------
-Backup database
-Full backup back's up complete db to the given location
-Differential Backup
-Just add option using with(option name is Differential) 
-This back's up only the changes since last backup
-You can also backup just the logs
+Expression Trees store code in tree like format nodes can be binary operations,method calls,variables or constants
+the relationship between them is defined using the branch in tree
+IQueryable queries data from different sources
+a provider needs to efficiently convert a linq query to underlying query language of data source
+this can be done efficiently to optimize the query
 -----------------------------------------------------------------------------------------------------------
 Concurrency is basically when we want more responsiveness system and progress for different tasks
 It can be on a single system using context switching
 Parallel programming is a subset of Concurrent programming which happens on different cores
+Parallel programming in C# is achieved through Parallel class using ForEach and For as well as 
+Task library and Parallel Linq,It helps with better utilization of cores and resources
 Threads(using System.Threading  and using System.Threading.Tasks)
 Task is basically an abstraction a unit of work that is expected to be executed as a seperate thread
 Thread vs Task
@@ -193,18 +235,19 @@ Use task.Wait() because it creates background threads that do not keep running a
 async programming basically means non-blocking
 Improves responsiveness
 Concurrency
-asynchronus programming is basically a unit of work can execute independently of the main thread
-the main thread can continue to do it's work
+async programming is basically letting the main thread continue with some other function or other interaction
+till some operation is completed without blocking the main thread.
 when that unit is done with it's work we make can make use of whatever was done by this unit
-Multithreading deals with creation of multiple threads too but those could be executing on different functionality
-altogether and there is a major difference in how they are implemented
-Multithreading is implemented using Thread class but asynchronus is implemented using Task Parallel Library async and await
+This is an intermediate between synchronus(single thread) and multithreaded application
+Multithreading is involved in creation of multiple threads performing different functions
+But async programming does not use as many threads it releases a thread when it has to wait for some unit of work to be finished
+This is great resource utilization and also helps with progress
 async and await are used to simplify asynchronous programming.
 They allow to write async code that is easy to read and maintain, 
 resembling synchronous code structure while maintaining the 
 non-blocking behavior of asynchronous operations.
+await when used in a method only blocks the further execution of the method not of the thread that was executing the method
 Wait() is blocking which means that it blocks the calling thread
-But await is not blocking which means in that method the execution control won't move to the next line
 same as Wait() but now if the thread wishes to do something entirely different it can
 Task methods do not take a lambda with input parameters just the return values
 To return a values use to store it in Task<> task
@@ -261,6 +304,41 @@ SempaphoreSlim is used with tasks it is lightweight and provides async functiona
 Both Auto and Manual reset events allow threads to communicate with each other via signalling
 Basically used for coordination and communication in between the threads
 Set releases threads that have accessed .WaitOne()(Basically unblocks them)
+Mutex can be used for synchroinzation of threads within a process as well as for inter-process synchronization
+It is blocking too
+Use .WaitOne() and .ReleaseMutex()
+Usually slower than Monitor or Semaphore
+ReaderWriter is used when we have more reads and less writes and we want multiple readers to read together
+a writer can access the section alone but multiple readers can read 
+when writer is performing some work readers can't read the data
+when readers are reading writer can't write
+Thread life cycles
+Thread can be in different states through it's creation to ending
+Unstarted:Created but not started yet new Thread()
+Running:.Start has been used thread.Start()
+WaitSleepJoin:Thread is blocked either using .Sleep,.Join or something like task.Wait()
+Suspended:Deprecated creates deadlocks should not be used
+Aborted:Deprecated too thread can be aborted or terminated on request
+Stopped:When thread finishes it's job it is stopped
+Thread has a property priority it is an enum that can be used for example Highest,Lowest,Normal
+by default it is Normal
+ThreadPriority is the enum. Priority decides how frequently does a thread get CPU
+Use foreground thread when we want that the application should keep running even after calling thread exits
+for example to log something or UI where we want it to be responsive
+Use background thread when you do not think it is very important to keep it running
+Thread Pool creates and manages background threads
+This reduces the overhead of creation and disposal of threads 
+Scheduler schedules tasks in queue and as and when there is a available thred it is made avialable to the 
+task
+Load is also balanced automatically by ThreadPool
+ThreadPool.QueueUserWorkItem(Method(object o)) is used to start a thread  
+Before await the code runs synchronusly
+At await the thread might be
+After await the code is called continuation task
+Usually works with the returned values of async operation
+If we set the configureawait to false then we might execute the continuation task without the 
+context which could be saved states of the previous synchronus code
+So if we want that after await we should use same thread to run we use configurewait
 -----------------------------------------------------------------------------------------------------------
 SOLID principles : Solid principles are design principles that make the code more understandable,flexible
 and maintainable code also needs to be reusable.
