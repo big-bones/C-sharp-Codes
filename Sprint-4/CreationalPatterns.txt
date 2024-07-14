@@ -1,0 +1,54 @@
+Creational Patterns are concerned about the creation of object
+These patterns also abstract the way the object is created
+Sigleton
+Factory
+Abstract Factory
+Builder
+Prototype
+-------------------------------------------------------------------------------------------------------------------
+Factory:
+Factory Method separates product construction code from the code that actually uses the product. 
+Therefore it’s easier to extend the product construction code independently from the rest of the code.
+If we were constructing the product in the class that uses the product(which is it's primary resposiblity)
+Then we are violating SRP with factory pattern we actually stick to SRP
+Actors in Factory:
+Interface for Products
+Concrete Products that implement interface
+Abstract class/Interface for factory creation class that has one create method(This sticks to Open Closed Principle)
+Concrete classes that create individual products
+Can DI container be the use case?
+Follows SRP and Open Closed principle but the code might become very bulky because of this
+-------------------------------------------------------------------------------------------------------------------
+Abstract Factory:
+Creates of objects of related classes hiding the concrete classes from the user class altogether
+Purpose of the Abstract Factory is to provide an interface for creating families of related objects without specifying 
+Their concrete classes. This ensures that the objects created by a particular factory are designed to work together 
+and are consistent in their usage and design.
+Avoids tight coupling and similar to the Factory pattern follows SRP and Open Closed Principle
+You can be sure that whatever products are created by the factory are compatible with each other
+-------------------------------------------------------------------------------------------------------------------
+Singleton: 
+Makes sure that only one instance is created for a class that can be used differently or some fixed number of
+instances are created only
+Singleton violates SRP
+This is because the class encapsulates the buisness logic it should perform along with making sure that only one
+instance is created
+It is difficult to test too
+Has to be made thread safe in multi threaded enviorment
+Usually used with creation of DB objects,Loggers...etc
+-------------------------------------------------------------------------------------------------------------------
+Prototype: 
+-------------------------------------------------------------------------------------------------------------------
+Builder:
+In a complex object that has lot of properties we can either create a base class and extend functionality accordingly
+for example House has a basic strucutre but it can be extended to accomodate different modifications example a porch,
+statues etc.. we should use Open Closed Principle to accomodate the changes instead of changing the base house extend 
+from this House itslef but this would flood our program with loads of classes creating problems since the code would 
+be unmanagable, another alternative is to use same House instead of Open Closed Principle but then the constructor 
+size is still Humongus and for different houses we would have a lot of optional parameters 
+example a house that has porch does not have heated swimming pool these properties have to be explicitly set to false
+Instead we use Builder pattern to create a complex object
+Use Interface of Builder and derive a concrete builder from this
+Use Director class to abstract the creation of product from client class 
+Create product step by step using Director class 
+-------------------------------------------------------------------------------------------------------------------

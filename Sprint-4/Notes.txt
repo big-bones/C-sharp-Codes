@@ -1,0 +1,25 @@
+REST : Representational State Transfer	
+------------------------------------------------------------------------------------------------
+EF core tracks the object it does not have all the rows in it's memory
+In the memory it tracks whatever was queried 
+If a table has a primary key then it keeps track of PK in the memory
+The line _context.Entry(category).State = EntityState.Modified
+is creating a category object with PK = 1 and started tracking it directly
+and when we say await _context.SaveChanges()
+it basically means that we want to replace that category with PK = 1
+with this category as well as start it's tracking
+This is why it is fast that querying from the database and then modifying 
+the individual elements one by one 
+To track the entity that is already being tracked we have to query from the DB
+using FindAsync() and then do the updates otherwise it does not work
+The entities are tracked for the lifetime of DbContext in actual web application
+DbContext is usually scoped which means for the lifetime/session of a particular user
+we would keep tracking 
+Navigation properties are resolved as and when asked(loading required)
+Lazy loading : get the 
+Eager loading : use .Include() and .ThenInclude()
+Explicit loading : Load the parent entity first and then load related entities as and when required
+------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------
+
