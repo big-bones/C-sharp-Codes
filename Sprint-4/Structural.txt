@@ -1,0 +1,17 @@
+Structural Patterns are concerned about how classes and objects are composed to form larger structures
+It also promotes decoupling using interfaces
+-------------------------------------------------------------------------------------------------------------
+Adapter:Allows objects with incompatible interfaces to work together and collaberate
+Use the Adapter class when you want to use some existing class, but its interface isn’t compatible 
+with the rest of your code.
+This follows SRP and Open Closed principle
+But number of classes increase depdending on new adapters
+-------------------------------------------------------------------------------------------------------------
+Composite:Defines a common interface to treat the complex and simple objects similarly such that this structure
+creates a tree like structure
+Use the pattern when you want the client code to treat both simple and complex elements uniformly.
+If the classes are not at all similar then we need to make an overgeneralized interface which makes the code 
+harder to understand
+Follows Open Closed Principle
+Actors include : Leaf,Componenet(Interface),Composite
+-------------------------------------------------------------------------------------------------------------
