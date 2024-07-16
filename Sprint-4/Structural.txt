@@ -15,3 +15,17 @@ harder to understand
 Follows Open Closed Principle
 Actors include : Leaf,Componenet(Interface),Composite
 -------------------------------------------------------------------------------------------------------------
+Bridge:Bridge let's you split set of closely related classes into two separate hierarchies—
+abstraction and implementation—which can be developed independently of each 
+When we want to extend the class in independent dimensions
+It follows SRP and Open Closed principle
+Not similar to abstract factory because it creates objects of classes that work well together not all combinations
+like we can have here
+-------------------------------------------------------------------------------------------------------------
+Facade:It is a structural design pattern that provides a simplified interface to a library, a framework, 
+or any other complex set of classes.
+If we have a complex subsystem that needs to be used in the program which has multiple classes and corresponding
+objects and methods
+Facade delegates the client requests to the appropriate objects within the subsystem. The Facade is also responsible
+for managing their lifecycle
+-------------------------------------------------------------------------------------------------------------
