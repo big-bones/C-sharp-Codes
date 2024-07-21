@@ -1,0 +1,59 @@
+using System;
+
+class Rectangle
+{
+    public int x; public int y; 
+}
+
+class Circle
+{
+    public int r;
+}
+
+class CalculateArea
+{
+    public void Calculate(Rectangle r)
+    {
+        Console.WriteLine(r.x*r.y);
+    }
+
+    // Not good practice
+    public void Calculate(Circle c)
+    {
+        Console.WriteLine(Math.PI*Math.Pow(c.r,2));
+    }
+}
+
+
+//Instead
+
+interface IShape
+{
+    void CalculateArea();
+}
+public class Rectangle : IShape
+{
+    public int x;public int y;  
+    public void CalculateArea()
+    {
+
+    }
+}
+
+class Circle : IShape
+{
+    public int r;
+    public void CalculateArea()
+    {
+
+    }
+
+}
+
+class CalculateArea
+{
+    public void Calculate(IShape s)
+    {
+        s.CalculateArea();
+    }
+}
