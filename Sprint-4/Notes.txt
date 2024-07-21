@@ -22,6 +22,8 @@ Use proper HTTP methods
 Give proper error messages
 Use security
 Return only what the user asks for
+Put,Patch,Get,Delete,Post
+Put replaces entire object Patch makes partial updates
 What is the difference between some HTTP methods
 Web API works in REST api that can be consumed by variety of clients like browsers,mobile phones..
 Controller class handles the HTTP requests and generate HTTP responses
@@ -151,7 +153,10 @@ Query Parameter : http://example.com/resource?version=1
 Header Version : Add in the header and keep URI clean
 Advantages of versioning : 
 Backward Compatible and Specific Users get specific resource
-Rate Limiting
+Rate Limiting : Used to limit number of requests in some portion of time from a same client
+Install AspNetCoreRateLimit
+Can be set to limit rate for all the users
+Can be set to limit rate for specifi IP addresses in the configuration
 ------------------------------------------------------------------------------------------------
 Filters are similar to middlewares but offer more granular control they can be 
 Global,Controller level or action method level
@@ -186,7 +191,16 @@ we do not need to create a different resource end point to get different types o
 JSON is by default available and XML can be configured
 ------------------------------------------------------------------------------------------------
 Routing and Route Constraints:
-
+Routing matches incoming HTTP request to the corresponding controller
+Convention Routing defines a general route template in program.cs file
+app.UseRouting()
+app.UseEndPoints((endpoints => { endpoints.MapControllerRoute(name: "default", 
+pattern: "api/{controller}/{action}/{id?}"); })
+Attribute routing provides a more granular control over routes
+And a cleaner and understandable code
+Route Constraints : Constraints check the validity of query
+and can be custom implemented after implementing IRouteConstraint interface 
+public bool Match()
 ------------------------------------------------------------------------------------------------
 EF core is lightweight version of EF which is open source,cross platform
 It is ORM(object relational mapper) which enables developers to interact with database using 
@@ -297,7 +311,9 @@ it also tracks if found in db and retrived
 ------------------------------------------------------------------------------------------------
 Testing : 
 Golas of Testing : 
-
+Check if the functionality is working
+Find errors early on that can reduce cost
+Give a quality software as a deliverable
 Types of Testing : 
 Unit testing,integration testing,end to end testing,
 acceptance testing : Done by end users
@@ -377,4 +393,9 @@ But that is not the case with nUnit and xUnit
 MsTest has a very limited DI support same for the nUnit
 but xUnit has a in built DI support which makes it better choice in modern developments that
 involve Test driven approach
+------------------------------------------------------------------------------------------------
+Kestrel and IIS are web servers like lightweight OS that keeps our web application running
+Kestrel is designed for .net core is lightweight and cross platform
+IIS is made for windows system but is more secured and has inbuilt things like load balancing
+It usually acts as a reverse proxy for Kestrel in production enviorment
 ------------------------------------------------------------------------------------------------
