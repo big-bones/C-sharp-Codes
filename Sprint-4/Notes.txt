@@ -1,7 +1,206 @@
+SOA : Service oriented architecture this is a pattern where services can communicate on different
+platforms that are written in different languages it focuses on loose coupling between the
+servcies
+It is like microservices but in this architecture services are differ in scale they are larger
+services compared to microservices architecture and they use ESB for communication whereas
+Microservices communicate through rest protocols and JSON data transfer
+------------------------------------------------------------------------------------------------
+MVC is a architectural pattern that seperates logic,input and interface into different 
+components
+Interface is views that handle the UI
+Controllers is input 
+And the logic is services and Models
+Controler -> Service -> Controler -> View -> User
+------------------------------------------------------------------------------------------------
 REST : Representational State Transfer	
+These are architectural principles for designing networked applications
+They use HTTP methods to interact with the resources and interact mostly using JSON data
+Promote different client and server architecture and allow each to grow independently
+Promotes Statelessness as in each request has complete data on how to process it
+Use noun instead of verbs for api endpoints
+Use proper HTTP methods
+Give proper error messages
+Use security
+Return only what the user asks for
+What is the difference between some HTTP methods
+Web API works in REST api that can be consumed by variety of clients like browsers,mobile phones..
+Controller class handles the HTTP requests and generate HTTP responses
+Startup.cs 
+ConfigureServices and Configure
+Confiure is used to configure middlewares
+ConfigureServices does DI and Configure creates request pipeline that is middleware configuration
+ControllerBase is the class that has all the Ok() and CreatedAtAction() methods probably
+why it can return IActionResult or ActionResult types from action methods
+Methods in Controller are called Action Methods
+DTO : Data transfer objects is object designed to transfer data between different layers of the
+application they just encapsulate data and transfer it without any buisness logic
+Minimal API's are directly written in the Program.cs file
+using app.Map{HTTP Method}() this takes in two parameters the route or the url endpoint and the
+handler function or the action method that should do something when that endpoint is hit
+Usually used with smaller services for cleaner code
+Support DI and Model Binding too
+So there are essentially two approaches Controller Based API and Minimal API
+Record is imuutable data structure similar to class (properties can not be changed after they
+are initialized) based on equality of value and not reference like class
+Model Binding : Refers to the process of object creation from the data sent by HTTP request
+It allows data from various part of the request such as:
+Form Values : Submission of Form
+Route Values : Whatever value is in the route url
+Query Values : Query parameters after ?
+Headers	: Whatever is stored in Header
+For JSON data .net core internally uses System.Text.Json to deserialize the data and convert 
+it to the properties of action method parameters
+Basically it matches with the parameters and converts it to required types without any coder
+intervention
+Model Binding also helps in the model validation
+Model Validation is basically used to maintain data integrity for the input data
+There are inbuilt validation attributes like [Required]
+Beyond this you can use custom validation attributes by Inheriting a class called 
+ValidationAttribute and overriding the method ValidationResult IsValid() to get the custom validation logic
+In actionmethod of the controller you can directly use a method
+if(ModelValidation.IsValid){} this validates all the properties defined either by you or directly
+using in built validation attributes 
+using System.ComponentModel.DataAnnotations;
+api pipeline is a sequence of componenets that the request and response goes through
+Middlewares are components placed in the api pipeline 
+middlewares can change the request and response object and can be executed before and after 
+invokin the next phase of the pipeline
+Run middlewares terminate the pipeline
+Use invoke next middleware
+Map are invoked when the path of the request matches the path of the Map middleware
+Use has a context and next parameter in the lambda of async type
+Logging in asp .net core can be done using Serilog configure Serilog in your program.cs application
+using 
+Log.Logger = new LoggerConfiguration()
+	    .ReadFrom.Configuration(builder.Configuration)
+	    .CreateLogger()
+builder.Host.UserSerilog()
+after this you can use ILogger interface in any of the class constructor
+example ILogger<ControllerClass> _logger
+and then use methods like _logger.LogInformation or _logger.LogError
+to use logging in that class happens through DI
+You can create a global exception custom middleware whenever any exception happens in any service
+repository or controller then that is throw to this middleware and is handled and a uniform
+response is shared regardless of what service or repository threw this exception
+this is better over handling controller level expcetion
+public async Task InvokeAsync(HttpContext context)
+is the method that needs to be used in order to create a custom middleware also
+use a private readonly RequestDelegate _next that calls the _next middleware in pipeline
+app.UseMiddleware<ExceptionMiddleware>()
+this is how you register the middleware in program.cs 
+HttpContext : This is basically the complete access to the request and response objects that
+are sent across the network in 
+It is scoped to the request lifecycle and can only be accessed in HTTP pipeline directly using
+HttpContext class but for classes in background like services we need to use
+IHttpContextAccessor interface that injects the object of context directly
+we can use context.User. to get the claims since context.User is claim principla which has 
+collection of the claims
+context.Request.Cookies can be used to authenticate a user's JWT token
+context.Respones.Cookies.Append can add JWT to the cookie which can be acces later in cycle 
+------------------------------------------------------------------------------------------------
+Security in API's:
+Authentication : This is done to authenticate the user that is log in and then access things
+You log in and create a JWT token
+JWT is a signed information that has three parts there is a header describing the algorithm
+that was used to hash the payload
+Payload is just the claims or additional metadata about the entity or in this case user
+It can include Role,Country etc.. that can be used later
+The JWT is not encryption but signing it has three components Header,Payload and the signature
+using the secret key that we define that is used to sign the token and provide the validation
+we create a tokenHandler using class JwtSecurityHandler()
+token descriptor has the array of claims
+token is created using tokenHadler.CreateToken(tokenDescriptor)
+we use Authorize attribute over a method or the controller to enforce the api that is being accessed
+needs the user to be authenticated 
+Authorize first checks the authentication and then checks the authorization using claims in JWT
+token
+Authorization : It is used to decide if the user has permissions to access particular endpoints
+or resources 
+User Identity is created after user is authenticated using Claims
+Claim is metadata about the user that can include role,name,country..and other relevant properties
+For authorization first the user needs to be authenticated using log in a JWT token with claims
+is created and and roles and relevant polcies are assigned that can be checked on relevant
+resources when we use [Authorize] attribute directly
+[Authorize("Roles = Admin")] Role based authorization
+Policy based autorization is based on some custom logic used 
+Such as which country does a user belong to 
+Is the age 18 or above etc...
+Steps to create a Policy based authorization:
+
+------------------------------------------------------------------------------------------------
+HttpClient is used to send and recive request and response from a resource identified by URI
+we can just pass the URI to the client object and use appropirate methods to work with external
+api's or resources on the internet
+client.GetAsync(url) gets the data from some resource that is on the network
+we can read the data using the response.Content.ReadAsStringAsync()
+these are some methods..
+we can also post 
+using 
+client.PostAsync(url,obj)
+Some resources require keys then with every request we need to add an authentication key provided
+by the resource itself
+add key to client.DefaultRequestHeaders.Add()
+it can also be added as query parameter...
+depends how the resource wants us to access it
+Api versioning : 
+Technique used to manage changes and updates to an API over time while 
+maintaining backward compatibility for existing clients
+Can be done using : 
+URI based : http://example.com/v1/resource
+Query Parameter : http://example.com/resource?version=1
+Header Version : Add in the header and keep URI clean
+Advantages of versioning : 
+Backward Compatible and Specific Users get specific resource
+Rate Limiting
+------------------------------------------------------------------------------------------------
+Filters are similar to middlewares but offer more granular control they can be 
+Global,Controller level or action method level
+Types and Order:
+Authroization : Executed before action method to authorize
+Resource : Allocate and Delloacte the resources before and after execution of action method
+Action : Used for logging before and after method execution
+Excpetion : Executed if exception occurs
+Result : Change the request or response object executed before and after the method execution
+You can register the filters with di using service.AddScoped<FilterName>()
+In middlewares we do app.UseMiddleware<ExceptionMiddleware>()
+Another way is not to register create a custom attribute and use whereever you want to
+Custom filters are created by Implementing interfaces of required types for example
+Authorization Filter is implemented using IAuthorizeFilter
+If a filter is registered with DI use
+[ServiceFilter(typeof(CustomAuthorizeFilter))]
+If some action method has a filter and middleware both execute
+But middleware is executed first
+Useful because granular and more control than middleware
+Decouples things like logging from buisness logic
+Reusable
+Content Negotiation : Determines the data type in which client and server communicate
+A client asks for data in some specified format through Accept Header where they mention
+acceptable formats to return data in 
+Server to the best of it's capacity tries to honor this by serializing the data accordingly
+If the server can not send the data in required format then it either sends in default format
+or error is thrown
+Server send a header called Content-Type to specify what is the type of content the data is
+sent in
+Useful because client and server can communicate with different data types and
+we do not need to create a different resource end point to get different types of data
+JSON is by default available and XML can be configured
+------------------------------------------------------------------------------------------------
+Routing and Route Constraints:
+
+------------------------------------------------------------------------------------------------
+EF core is lightweight version of EF which is open source,cross platform
+It is ORM(object relational mapper) which enables developers to interact with database using 
+.net objects,also has support for no sql databases
+A collection of Entities basically map to database
+They are CLR objects???
+DbSet<Entity> represents the table which is collection of all the entities
+There are features to load related data either lazy,eager or explicit loading
+So basically entities are tracked and stored in different states and when we do .SaveChanges()
+then collectively sql queries are written and then the database is updated
 ------------------------------------------------------------------------------------------------
 EF core tracks the object it does not have all the rows in it's memory
 In the memory it tracks whatever was queried 
+Entity can be in states like added,modified,unchanged,detached...etc
 If a table has a primary key then it keeps track of PK in the memory
 The line _context.Entry(category).State = EntityState.Modified
 is creating a category object with PK = 1 and started tracking it directly
@@ -16,10 +215,166 @@ The entities are tracked for the lifetime of DbContext in actual web application
 DbContext is usually scoped which means for the lifetime/session of a particular user
 we would keep tracking 
 Navigation properties are resolved as and when asked(loading required)
-Lazy loading : get the 
+Lazy loading : get the parent first and then just use . operator on that object(needs to be configured)
 Eager loading : use .Include() and .ThenInclude()
 Explicit loading : Load the parent entity first and then load related entities as and when required
+OnModelCreating is used to map the entities to the database using some added functionality
+that includes using indexes adding a one to many or many to one relationship etc...
+Whenever the context is executed this method is executed too
+OnModelCreating : Used to configure model that is being created in database context
+Use OnModelCreating to define a mapping in the relationship or to add constraints on some properties
+Since the changes are not made in database but just in the model
+It is more like whatever it is tracking it applies those constraints,indexes or the mappings on them
+You can use indexing in both and get faster queries for large data
 ------------------------------------------------------------------------------------------------
-Unit Testing:
+Migrations are used to maintain the consistent schema in the database when you change your 
+entities or the models in the code
+It persists the data that can be persisted but it can not be guarentted in sense you delete 
+a column(example)
+use Microsoft.EntityFrameworkCore.Migrations
+The migration file created has all the changes that you made to the model from it's previous 
+snapshot
+We have two methods up and down up is the changes made and down is how to delete those changes
+This migration file is created when you do add-migrations initialcreate command
+before you use update-database we can add some stuff to the migration file like maybe indexes 
+and the use update-database command
+_EFMigrationHistory is a table that keeps the track of which migrations have been applied
+in the database
+Just add the index in the migration file using migrationBuilder.Sql command
+You can write whatever you want in here
 ------------------------------------------------------------------------------------------------
+Database first approach : DB is created we want to create models for the same use scaffolding
+Code first approach : Write models first and then perform migrations
+Model first : Create a model with dependencies and then EF creates sql commands to create DB
+in sql server?
+Use Database first if you want more control over DB creation since it is more difficult to add
+things like indexes and stuff in Code first approach
+We use optimistic approach to handle concurrency in EF core which states that chances of it 
+happening are very small but in case it happens we can use a RowVersion which is a time stamp
+attribute to check if the conflict has occured when the db is getting updated if that is the case
+it throws a DbUpdateConcurrencyException that can be handled explicitly
+------------------------------------------------------------------------------------------------
+.NET core advantages:
+Cross platform works on Mac as well as Linux
+Modularity : Install only the packages and it's dependencies/libraries that you need
+makes the code ligther and easy to deploy and carry
+Open Source : Open source so huge community support
+Dependency Injection : In built DI support to make the program modular and easy to test
+as well as promotes loose coupling
+Beyond .NET 6 we have got .NET core and .NET framework combined
+Also support of Hot Reload
+Dependency Injection is basically the implementation of Inversion of Control design pattern
+which broadly states that objects do not create objects on which they work it is done through
+some service and injected and created as and when needed
+In console application you can use Microsoft.Extensions.DependencyInjection
+In asp .net application it is already installed and used in Startup.cs file
+also has inbuilt configuration packages installed
+otherwise use Microsoft.Extensions.Configuration
+.GetService<InterfaceName>() returns the object in Console app
+No need in the asp .net projects can be directly used with constructor
+Environment Variables are used to configure sensitive information like database connection,api 
+keys etc..
+They are accessed by Operating System and hence are secure
+They are also like Key value pairs
+Environment.GetEnvironmentVariable("MY_VARIABLE"); //way to access the variable in C# code
+Activation types refers to different ways objects are instantiated and managed by DI container
+Singleton : Created once during the lifecycle of the application and shared across resources
+Use when the initialization is heavy 
+Ensure thread safety
+Scoped : Once per request is created that is the session in which user is active the same object
+will be used to serve the purpose
+Example : DbContext object that interacts with the Database
+So if we want to know the state in a particular session this is used
+Use when you need tracking for better efficiency and caching 
+Not suitable for mutlithreaded?
+Transient : In a session of the user transient creates a new object each time requested
+Use when creation is not heavy
+Good for short lived operation so you can dispose the object using Garbage Collector
+------------------------------------------------------------------------------------------------
+FindAsync method is used with Repository class where we pass primary key as the parameter and
+it finds first in the context(the cache maintained by EF) if not found it searches database
+it also tracks if found in db and retrived 
+------------------------------------------------------------------------------------------------
+Testing : 
+Golas of Testing : 
 
+Types of Testing : 
+Unit testing,integration testing,end to end testing,
+acceptance testing : Done by end users
+Performance and stress testing : Done under different conditions to check the load system can 
+take stress testing is done in extreme conditions
+Regression testing : Ensure new changes do not break the code
+Smoke testing : Done right before sending to production
+Unit testing:
+This is done on the smallest program unit or methods
+They are expected to be independent(without aid of other modules)
+Should be easy to execute and fast and should cover most of the code
+Integration testing is testing working of multiple units together
+this is done to ensure if they work well together
+Should be less than unit tests
+Testing Pyramid : Says that you should write most number of unit tests followed by integration 
+tests and then end to end tests because this balance helps to cover all levels and creates a
+well tested software.
+Bottom layer is unit tests in most numbers 
+Followed by integration tests
+Later end to end test to check the functionality of whole software
+The layers from bottom to top is basically a reduction in number of test cases
+TDD : Test driven development is a novel approach that says write tests first and then write
+the code for functionality this basically says write a failing test(where the functionality
+should fail) then write a basic code that should pass the functionality and then refactor 
+the code to add to the functionality in similar process
+AAA's of unit testing(Arrange => Act => Assert)
+Arrange : For example create an object of the class where the functionality is that you want
+to test and then create data that you want to use against the expected result
+Act : Invoke the method that you want to test and get the result
+Assert : Test against the expected value if the value matches and test passes
+Fact : Represents a single test in Xunit and does not take input
+defined using attribute over that method
+Theory : Represents multiple tests that also can take input and test against that input
+Assert.Throws<ExpectedException>(Action delegate) takes action delegate as input and
+returns a expected exception object that needs to be passed inside the <>
+ITestOutputHelper is an interface that is injected by xUnit which can help in debugging
+the tests as well as writting the logs for the same
+An instance is passed in constructor similar to all the DI for other services in asp .net 
+Xunit Fixtures : Set up and tear down
+Used when you want to set up a context across multiple test
+Basically means that you want to perform set up once and then use it across multiple tests
+It can be a DB connection,creation of complex objects etc...
+Classes used in Fixtures : 
+FixtureClass : IDisposable that populates the data for say service class
+ServiceTestingClass : IClassFixture<FixtureClass>
+DI injects the Interface IService because that is what we want to test
+then check the methods of service directly do not need to populate 
+Autofixture : Creates relevant data directly
+add dependenices and use var fixture = new Fixture()
+var name = fixture.Create<string>()
+MOQ Framework : 
+Used to create mock objects for unit testing so that functionality can be tested in isolation
+without dependence of other modules
+It provides mock objects that simulate the behavior of real dependencies
+It does not actually create the objects just simulates how they would behave
+For example create 
+var mockRepository = new Mock<IRepository>();
+This simulates how a repository object would behave
+mockRepository.Setup(r => r.GetName(userName)).Returns(expectedResult)
+var userService = new UserService(mockRepository.Object)
+Console.WriteLine(userService.GetName(userName))
+Maybe the service has additional functionality that it does after getting the data
+here we are trying to test two things for user service class
+it's interaction with repository object and any other functionalities that it does after getting the
+data 
+Mock has nothing to do with repository class in this case
+Code coverage: What percentage of code is covered by test cases higher test coverage is basically
+more through testing 
+There are direct tools in the enterprise edition of Visual Studio to find the coverage of tests
+We can also use CI/CD pipelines to analyze the code coverage
+General convention to write a method signature
+MethodName_Condition_ExpectedResult
+Example : GetProfile_ExistingUser_ReturnsProfile
+Difference between MsTest,nUnit and xUnit
+MsTest is highly integrated with Visual Studio
+But that is not the case with nUnit and xUnit
+MsTest has a very limited DI support same for the nUnit
+but xUnit has a in built DI support which makes it better choice in modern developments that
+involve Test driven approach
+------------------------------------------------------------------------------------------------
