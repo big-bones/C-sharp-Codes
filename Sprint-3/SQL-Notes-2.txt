@@ -176,7 +176,7 @@ where employeeid in (
 
 
 with cte_as_delete_all_duplicates_no_condition as(
-	select employeeid
+	select employeeid,
 	row_number() over(partition by employeename order by employeeid) as row_num
 	from employees
 )

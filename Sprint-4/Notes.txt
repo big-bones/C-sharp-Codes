@@ -34,6 +34,8 @@ ConfigureServices does DI and Configure creates request pipeline that is middlew
 ControllerBase is the class that has all the Ok() and CreatedAtAction() methods probably
 why it can return IActionResult or ActionResult types from action methods
 Methods in Controller are called Action Methods
+ActionResult is a abstract class that returns responses from controller's action methods
+That also includes additional information like HTTP status code for better understanding
 DTO : Data transfer objects is object designed to transfer data between different layers of the
 application they just encapsulate data and transfer it without any buisness logic
 Minimal API's are directly written in the Program.cs file
@@ -66,7 +68,7 @@ using System.ComponentModel.DataAnnotations;
 api pipeline is a sequence of componenets that the request and response goes through
 Middlewares are components placed in the api pipeline 
 middlewares can change the request and response object and can be executed before and after 
-invokin the next phase of the pipeline
+invoking the next phase of the pipeline
 Run middlewares terminate the pipeline
 Use invoke next middleware
 Map are invoked when the path of the request matches the path of the Map middleware
@@ -91,7 +93,7 @@ use a private readonly RequestDelegate _next that calls the _next middleware in 
 app.UseMiddleware<ExceptionMiddleware>()
 this is how you register the middleware in program.cs 
 HttpContext : This is basically the complete access to the request and response objects that
-are sent across the network in 
+are sent across the network 
 It is scoped to the request lifecycle and can only be accessed in HTTP pipeline directly using
 HttpContext class but for classes in background like services we need to use
 IHttpContextAccessor interface that injects the object of context directly
@@ -166,7 +168,7 @@ Resource : Allocate and Delloacte the resources before and after execution of ac
 Action : Used for logging before and after method execution
 Excpetion : Executed if exception occurs
 Result : Change the request or response object executed before and after the method execution
-You can register the filters with di using service.AddScoped<FilterName>()
+You can register the filters with DI using service.AddScoped<FilterName>()
 In middlewares we do app.UseMiddleware<ExceptionMiddleware>()
 Another way is not to register create a custom attribute and use whereever you want to
 Custom filters are created by Implementing interfaces of required types for example
@@ -192,6 +194,7 @@ JSON is by default available and XML can be configured
 ------------------------------------------------------------------------------------------------
 Routing and Route Constraints:
 Routing matches incoming HTTP request to the corresponding controller
+and then to action methods of that controller
 Convention Routing defines a general route template in program.cs file
 app.UseRouting()
 app.UseEndPoints((endpoints => { endpoints.MapControllerRoute(name: "default", 
@@ -206,9 +209,10 @@ EF core is lightweight version of EF which is open source,cross platform
 It is ORM(object relational mapper) which enables developers to interact with database using 
 .net objects,also has support for no sql databases
 A collection of Entities basically map to database
-They are CLR objects???
+They are CLR objects???Plain Old CLR obejcts
 DbSet<Entity> represents the table which is collection of all the entities
 There are features to load related data either lazy,eager or explicit loading
+using navigation properties
 So basically entities are tracked and stored in different states and when we do .SaveChanges()
 then collectively sql queries are written and then the database is updated
 ------------------------------------------------------------------------------------------------
