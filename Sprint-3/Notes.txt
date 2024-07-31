@@ -340,20 +340,3 @@ If we set the configureawait to false then we might execute the continuation tas
 context which could be saved states of the previous synchronus code
 So if we want that after await we should use same thread to run we use configurewait
 -----------------------------------------------------------------------------------------------------------
-SOLID principles : Solid principles are design principles that make the code more understandable,flexible
-and maintainable code also needs to be reusable.
-SRP:SRP says every class should have a single responsiblity this makes the code modular and easy to test
-Open Closed Principles:Open for extension and closed for modification(entities not just classes)this is
-for the reusability
-Liskov Substitution Principle:It is an enforcement of Inheritance which is basically Is-A relationship
-It ensures that subclass can stand in for it's superclass without breaking the code(It maintains integrity)
-Interface Segregation Principle:No client should be forced to implement methods it does not use
-Instead of large interface break down the interface into smaller interfaces and implement accordingly
-Makes the code modular
-Dependency Inversion Principle:High level modules should not depend on low level modules directly both 
-should depend on abstraction(This decouples the system makes it more scalable)
-Dependency Injection:This allows a class to recieve it's dependencies from external source rather 
-than implementing itself it is implementation of Inversion of Control
-Promotes decoupling makes system modular and easier to test,scale and maintain
-IOC:Invert the control of object creation and management from the application code to a container or framework
-------------------------------------------------------------------------------------------------------------

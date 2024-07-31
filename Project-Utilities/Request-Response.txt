@@ -136,3 +136,7 @@ Unsuccessful Response Object
 }
 
 -------------------------------------------------
+
+admin@gmail.com
+Password@1023
+2051d526873ff4c9c069d1ebeb03b4bf4c49a9ada41a268f622e101f3f3810a2

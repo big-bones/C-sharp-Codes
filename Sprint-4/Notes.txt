@@ -15,8 +15,8 @@ Controler -> Service -> Controler -> View -> User
 REST : Representational State Transfer	
 These are architectural principles for designing networked applications
 They use HTTP methods to interact with the resources and interact mostly using JSON data
-Promote different client and server architecture and allow each to grow independently
 Promotes Statelessness as in each request has complete data on how to process it
+Promote different client and server architecture and allow each to grow independently
 Use noun instead of verbs for api endpoints
 Use proper HTTP methods
 Give proper error messages
@@ -24,7 +24,7 @@ Use security
 Return only what the user asks for
 Put,Patch,Get,Delete,Post
 Put replaces entire object Patch makes partial updates
-What is the difference between some HTTP methods
+Web API is basically used to create Network Applications
 Web API works in REST api that can be consumed by variety of clients like browsers,mobile phones..
 Controller class handles the HTTP requests and generate HTTP responses
 Startup.cs 
@@ -46,8 +46,9 @@ Support DI and Model Binding too
 So there are essentially two approaches Controller Based API and Minimal API
 Record is imuutable data structure similar to class (properties can not be changed after they
 are initialized) based on equality of value and not reference like class
-Model Binding : Refers to the process of object creation from the data sent by HTTP request
-It allows data from various part of the request such as:
+Model Binding : Refers to the process of object creation from the data sent through HTTP request
+It is basically deserialization of data into required parameter object
+It can be through various sources
 Form Values : Submission of Form
 Route Values : Whatever value is in the route url
 Query Values : Query parameters after ?
@@ -88,6 +89,7 @@ repository or controller then that is throw to this middleware and is handled an
 response is shared regardless of what service or repository threw this exception
 this is better over handling controller level expcetion
 public async Task InvokeAsync(HttpContext context)
+and use RequestDelegate _next
 is the method that needs to be used in order to create a custom middleware also
 use a private readonly RequestDelegate _next that calls the _next middleware in pipeline
 app.UseMiddleware<ExceptionMiddleware>()
@@ -103,7 +105,8 @@ context.Request.Cookies can be used to authenticate a user's JWT token
 context.Respones.Cookies.Append can add JWT to the cookie which can be acces later in cycle 
 ------------------------------------------------------------------------------------------------
 Security in API's:
-Authentication : This is done to authenticate the user that is log in and then access things
+Authentication : This is done to authenticate the user's identity
+that is log in and then access things
 You log in and create a JWT token
 JWT is a signed information that has three parts there is a header describing the algorithm
 that was used to hash the payload
@@ -130,7 +133,14 @@ Policy based autorization is based on some custom logic used
 Such as which country does a user belong to 
 Is the age 18 or above etc...
 Steps to create a Policy based authorization:
-
+Create a class that takes in the input for the policy example country string that we want to allow
+This class implements IAuthorizationRequirement(Name the class with Requirement ending)
+This is also registered in services.AddAuthorization with the string of the required country
+Create a class that is derived from AuthorizationHandler<CountryRequirement>
+This has a method HandleRequirementAsync(Context,Requirement)
+Do the required and use the attribute
+[Authorize(Policy="CountryPolicy")]
+CountryPolicy is the name used during registration
 ------------------------------------------------------------------------------------------------
 HttpClient is used to send and recive request and response from a resource identified by URI
 we can just pass the URI to the client object and use appropirate methods to work with external
@@ -403,3 +413,50 @@ Kestrel is designed for .net core is lightweight and cross platform
 IIS is made for windows system but is more secured and has inbuilt things like load balancing
 It usually acts as a reverse proxy for Kestrel in production enviorment
 ------------------------------------------------------------------------------------------------
+Middleware : It is a component of web api pipeline that can be executed before and after the 
+calling of next middleware for every request and response cycle
+It can change the request and response object accordingly
+Filters offer more granular control in a sense they can be global,controller level or even
+action method level so a filter written for action method can be executed before and after 
+the action method is executed 
+In order to create a custom middleware we have to use a class that has InvokeAsync method
+that takes in the HttpContext object 
+To create a custom filter we have to use different interfaces depending on the type of the 
+filter for example IAuthorize interface to create a custom authorization filter
+Middleware can be registered directly in the program.cs file using directly app.UseMiddleware
+Filters have to be registered with DI and then we can use a attribute ServiceFilter to use
+that filter on controller level or action method level
+These are useful because they take away the responsiblity of having to create redundant things
+like logging and excpetion handling and create a uniformity for every class and service
+REST or Representational State Transfer is basically architectural principle that helps in
+design of networked applications
+The communication between the entities happen through the HTTP methods
+Rest also promotes statelessness where client and server are independent entitties that grow
+independently of each other and each request has complete information on how to process it
+------------------------------------------------------------------------------------------------
+SOLID principles : Solid principles are design principles that make the code more understandable,flexible
+and maintainable code also needs to be reusable.
+SRP:SRP says every class should have a single responsiblity this makes the code modular and easy to test
+Open Closed Principles:Open for extension and closed for modification(entities not just classes)this is
+for the reusability
+Liskov Substitution Principle:It is an enforcement of Inheritance which is basically Is-A relationship
+It ensures that subclass can stand in for it's superclass without breaking the code(It maintains integrity)
+Interface Segregation Principle:No client should be forced to implement methods it does not use
+Instead of large interface break down the interface into smaller interfaces and implement accordingly
+Makes the code modular
+Dependency Inversion Principle:High level modules should not depend on low level modules directly both 
+should depend on abstraction(This decouples the system makes it more scalable)
+Dependency Injection:This allows a class to recieve it's dependencies from external source rather 
+than implementing itself it is implementation of Inversion of Control
+Promotes decoupling makes system modular and easier to test,scale and maintain
+IOC:Invert the control of object creation and management from the application code to a container or framework
+------------------------------------------------------------------------------------------------------------
+
+
+authorization service
+blog service
+user service
+discussion forum service
+user network service
+destination service
+admin service
