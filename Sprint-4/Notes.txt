@@ -451,12 +451,71 @@ than implementing itself it is implementation of Inversion of Control
 Promotes decoupling makes system modular and easier to test,scale and maintain
 IOC:Invert the control of object creation and management from the application code to a container or framework
 ------------------------------------------------------------------------------------------------------------
-
-
-authorization service
-blog service
-user service
-discussion forum service
-user network service
-destination service
-admin service
+Cyclomatic complexity measures the complexity of the control flow of the program
+This means it finds how one block of code depends on other blocks of code
+A less complex program is generally straight forward and easy to understand
+It is also easy to test 
+Code smells are potential problems in the code refactoring which might make the code better in the long run
+Things like violation of SOLID principles
+Redundant code lines
+are often code smells
+CI/CD is continous integration and continous deployment/delivery
+CI is focused on getting the code from a shared repository 
+building and testing the code ensuring the high quality of the code
+CD is focused on reliable deployment of new features and high quality software
+Jenkins is basically an Open Source automation server that helps with CI/CD
+It looks for the changes in the shared repositories builds the code tests the code
+and can also deploy the code
+There are many plugins that are available for example plugins for GIT so that
+Jenkins can keep track of any source code changes 
+SonarQube is used for continous inspection of the code quality it performs static code analysis
+and provides reports on code smells and bugs
+When integrated with Jenkins it provides the report as part of the build process
+------------------------------------------------------------------------------------------------------------
+Microservices is an architectural pattern where application is structured as loosely coupled
+and independently deployable services they can scaled up and down independently 
+Each services has it's own api's, db and logic 
+Services communicate through rest api's 
+We can have different services in differnet technologies
+CI/CD can be used since each service is independent
+Inter service communication is complicated and there is also the issue of network latency in communication
+------------------------------------------------------------------------------------------------------------
+Git Flow is a branching strategy 
+main branch has production ready code always ready for deployement
+devlop branch has the next upcoming release code
+Feature branches are created from develop to work on them
+Cherry picking is the process of picking specific commits from a branch and just merging those commits
+When merge or rebase is done all the commits are merged too but this is more specific
+In case of merge conflicts resolve them manually
+------------------------------------------------------------------------------------------------------------
+Agile is a itreative software development methodlogy
+It breaks down the project in small units called sprints
+Each sprint is focused on creating working piece of software
+It is customer centric because we have frequent releases and customer feedback to accomodate the changes
+at any point the in the development unlike traditional development models like Waterfall model
+Scrum is a framework of agile and so is Kanban Kanban can have a flexible sprint duration
+User story and acceptance criteria
+User Story: They are consice description of a feature from end user perspective 
+usually written as
+As a registered user I want to reset my password 
+Acceptance criteria
+These are criterias or requirement that a user story must have in order to become acceptable
+It has functional and non functional requirements
+Functional requirements are specific functions that must be present
+Non functional requirements are secondary requirements like usability of the feature
+Story points are assigned which is rough estimation of the work involved in the story
+It is assigned collectively by team using methods like Planning poker
+Points are assigned in Fibonaaci Series pattern higher the points the story is more complicated 
+What are sprint ceremonies
+Sprint Planning : Done on the first day of the sprint to decide what the team should achieve this sprint
+User stories are created based on the backlog item taken from product backlog in the sprint backlog meet
+Daily Scrum : Review of what was done yesterday and what is being done today
+Sprint Review : This is demonstration of what was done during the sprint and gather feedback from stake holders(product owner)
+Sprint Retrospective : It is a reflection on what good and what bad happend during the sprint and how can team improve 
+Sprint Backlog : This meet involves choosing the backlog item from product backlog to be worked on in the next sprint
+Product backlog is basically how many features will we have through the scope of the project
+Sprint Velocity is a quantitative measure of work done by team through sprint depending on number of story points completed divided
+by total story points created for the sprint
+This is a good tool to access the performance of the team because we can change the number of story points for the next sprint
+and plan and adjust next sprint accordingly
+------------------------------------------------------------------------------------------------------------
