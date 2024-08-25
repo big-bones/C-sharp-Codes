@@ -1,3 +1,11 @@
+ER diagrams are used to get a visual representation of database's logical design
+Helps to properly identify relationship between the entities
+Components include:
+Entity, Attribute and Relationship
+Entity : Rectangle
+Attribute : Oval
+Relationship : Diamond
+------------------------------------------------------------------------------------------------------------
 A database that is not normalized might introduce insert,update and delete anamolies since the data is 
 redundant to avoid this we do normalization which is breaking the tables into smaller tables and joining 
 back to gain the original data back
