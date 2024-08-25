@@ -26,9 +26,16 @@ mutliple data storages and databses this is done to make it more scalable
 Partitioning is done based on some set of attributes
 Sharding is done using shard key?
 ------------------------------------------------------------------------------------------------------------
-SQL is not very good with horizontal scaling
+SQL vs NoSQL
+1.Relational vs Non-Relational
+  Relational databases are tabular in strucutre non-relational can be documents based, graph based etc..
+2.SQL needs vertical scaling because horizontal scaling might not be efficient because of joins
+  Horizontal scaling is easy and more managable NoSQL can help with this because they scale horizontally
+3.Transactions : Since SQL follows ACID transactions are usually convinient compared to NoSQL
+SQL is used in the systems where we want consistency(financial applications)
+NoSQL are good with large volumes of real time data 
+4.SQL has fixed schema NoSQL can have variable structure
 Ensuring data integrity can be difficult
-SQl can be slow when dealing with larger datasets
 SQL server does not support for loop
 go is a batch seperator each batch is executed simultaneously on server
 even if you execute a procedure before the definiton in script it will work
@@ -39,6 +46,7 @@ Truncate : Deletes all rows by default, can not use where condition here the mem
 Delete : We can use where condition here to delete selectively
 delete is slower than truncate because it logs the complete info whereas truncate only logs partial info
 In all the cases if the commands are written inside transaction we can retrive all the data in case of a rollback
+TCL : Transaction Control Language has commit, rollback and begin transaction
 DDL commands : Create , Alter , Drop , Truncate , Rename
 In every DDL command we have a general idea of OPERATION TABLE TABLENAME...
 DML commands : Insert , Update , Delete
@@ -61,7 +69,7 @@ this technique is called pagination
 Aggregate functions can be used with where clause directly without having to use group by explicitly
 because where also performs the task of clubbing something with same attribute together
 -----------------------------------------------------------------------------------------------------------
-temporary tables in sql are used to store the complex results of queries temporarily to optimize the query
+Temporary tables in sql are used to store the complex results of queries temporarily to optimize the query
 sometimes or in the stored procedures or some session specific data is required to be temporarily stored
 Local temporary tables are confined to the session that created them and are automatically dropped when the session ends.
 Global temporary tables are accessible to any session and remain until the session that created them ends and no other sessions are using them.
