@@ -1,0 +1,75 @@
+Add a column
+alter table employee
+add job varchar(100);
+---------------------------------------------------------------
+Change something in the table
+alter table employee
+alter job varchar(200)
+---------------------------------------------------------------
+Drop something
+alter table employee
+drop column job;
+---------------------------------------------------------------
+Add a constraint
+alter table employee
+add constraint
+fk_deptID
+foreign key(departmentID) references department(id)
+---------------------------------------------------------------
+Drop a constraint
+alter table employee
+drop constraint fk_deptID
+---------------------------------------------------------------
+Temp Table(stored in tempDb)
+Local:# and Global:##
+create table #TempTable(
+	Id int primary key,
+	Name varchar(20)
+)
+
+insert into #TempTable(Id,Name) values(20,'Sarang')
+insert into #TempTable(Id,Name) values(21,'Sarang')
+
+select * from #TempTable
+
+drop table #TempTable
+---------------------------------------------------------------
+create view retrivebooks
+as 
+select * from books
+This view is also updatable since no join operation and no
+aggregate functions
+---------------------------------------------------------------
+create view schemabounded with 
+schemabinding
+as 
+select bookid,title,authorid,genreid,publishedyear from 
+dbo.books
+---------------------------------------------------------------
+create nonclustered index books_title_index on
+dbo.books(title)
+---------------------------------------------------------------
+create clustered index books_title_index on
+dbo.books(id)
+---------------------------------------------------------------
+insert into #employee_data(EmployeeID,EmployeeName,DepartmentID,Salary)
+	select EmployeeID,EmployeeName,DepartmentID,Salary 
+	from Employees where Employees.DepartmentID = @DepartmentID
+---------------------------------------------------------------
+create trigger after_update_trigger on books
+after update 
+as
+begin
+	select * from inserted join deleted
+	on inserted.BookID = deleted.BookID
+end
+---------------------------------------------------------------
+create trigger instead_of_update_trigger on books
+instead of update
+as
+begin
+	select * from inserted join deleted
+	on inserted.BookID = deleted.BookID
+end
+---------------------------------------------------------------
+

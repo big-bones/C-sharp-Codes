@@ -77,6 +77,7 @@ temporary tables are stored in tempdb database
 you can create indexes,pk,constraints etc.. on them
 local scope temp tables : create table #table_name
 global scope temp tables : create table ##table_name
+Views or functions can not be created on them
 -----------------------------------------------------------------------------------------------------------
 Functions and Stored procedures are both stored in db by precompiling and creating a execution plan
 when the stored procedure or a function is invoked the execution plans are used to
