@@ -85,6 +85,32 @@ class Program
             Console.WriteLine();
         }
 
+        var joinKardiyaGuru = employees.Join(
+                        departments,
+                        emp => emp.DepartmentId,
+                        dept => dept.DepartmentId,
+                        (emp, dept) =>
+                        new
+                        {
+                            Name = emp.Name,
+                            DepartmentId = emp.DepartmentId,
+                            Salary = emp.Salary,
+                            DepartmentName = dept.DepartmentName
+                        }
+                    ).GroupBy(
+                        grp => grp.DepartmentName
+                    ).Select(
+                        grp => new
+                        {
+                            Key = grp.Key,
+                            Count = grp.Count()
+                        }
+                    );
+foreach (var x in joinKardiyaGuru)
+{
+    Console.WriteLine(x);
+}
+
         var simpleGroups = from e in employees
                            group e by e.DepartmentId into g
                            select new
