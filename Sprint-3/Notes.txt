@@ -357,3 +357,4 @@ If we set the configureawait to false then we might execute the continuation tas
 context which could be saved states of the previous synchronus code
 So if we want that after await we should use same thread to run we use configurewait
 -----------------------------------------------------------------------------------------------------------
+Server=travelrecommendations.database.windows.net;Database=Team5-TR-Dev-QA;User ID=epmtr;Password=epm@3007;TrustServerCertificate=True
