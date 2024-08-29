@@ -1,0 +1,12 @@
+Behavioral Patterns are concerned about how different objects interact with each other
+-------------------------------------------------------------------------------------------------------------
+Mediator : Promotes loose coupling between the objects by avoiding direct interaction with each other and
+promoting the interaction through Mediator
+-------------------------------------------------------------------------------------------------------------
+Strategy : Creates a family of algorithms, encapsulate each one and make them interchangable
+Actors involved are:
+Strategy Interface : Interface that will be implemented by all the Algorithm families
+Concrete Strategies : Implementation of strategy interface
+Context : Maintains reference of strategy interface and interacts with client depending on their need new
+algorithms are created
+-------------------------------------------------------------------------------------------------------------
