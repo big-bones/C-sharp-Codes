@@ -29,3 +29,6 @@ objects and methods
 Facade delegates the client requests to the appropriate objects within the subsystem. The Facade is also responsible
 for managing their lifecycle
 -------------------------------------------------------------------------------------------------------------
+Decorator : Add a functionality at runtime instead of using inheritance we use composition 
+Extend the behavior without subclassing
+-------------------------------------------------------------------------------------------------------------

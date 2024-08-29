@@ -519,3 +519,9 @@ by total story points created for the sprint
 This is a good tool to access the performance of the team because we can change the number of story points for the next sprint
 and plan and adjust next sprint accordingly
 ------------------------------------------------------------------------------------------------------------
+Background services keep running in the background you do not need to make a call to anything explicitly
+Just register the service in Program.cs like
+services.AddHostedService<EventCleanupService>();
+It can be implemented either using IHostedService interface has StartAsync and StopAsync methods
+or using BackgroundService class that has ExecuteAsync method
+------------------------------------------------------------------------------------------------------------
