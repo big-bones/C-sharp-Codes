@@ -1,0 +1,37 @@
+Patterns in Microservices:
+-------------------------------------------------------------------------------------------------------------------------------------
+API Gateway:
+Problem: Direct communication between clients and multiple microservices can lead to complexity, 
+security issues, and difficulty in managing APIs.
+Solution: An API Gateway acts as a single entry point for all client requests, routing them to the 
+appropriate microservices. It can handle cross-cutting concerns like authentication, logging, and rate limiting.
+Example: A client requests data from a system, and the API Gateway routes this request 
+to multiple services and aggregates the responses before sending them back to the client.
+-------------------------------------------------------------------------------------------------------------------------------------
+Service Discovery Pattern:
+Problem: Microservices need to know the location (IP address, port) of other services they depend on, which may change dynamically.
+Solution: Service discovery manages the dynamic locations of services. 
+Services register themselves with a service registry, and clients (or other services) query this registry to find the current 
+location of a service.
+Example: Eureka in Spring Cloud, Consul, or etcd are used to register services and allow clients to discover them.
+-------------------------------------------------------------------------------------------------------------------------------------
+Circuit Breaker Pattern:
+Problem: When a service is down or overloaded, repeatedly calling it can waste resources and lead to cascading failures.
+Solution: The Circuit Breaker pattern prevents calls to a service if the service is likely to fail. 
+If the failure threshold is reached, the circuit breaker "opens," and requests are redirected to a 
+fallback method or rejected until the service is healthy again.
+Example: If a payment service is down, the circuit breaker stops requests to it and returns a fallback response or error message.
+-------------------------------------------------------------------------------------------------------------------------------------
+Saga Pattern:
+Problem: Coordinating complex transactions that span multiple microservices while maintaining data consistency.
+Solution: The Saga pattern breaks a distributed transaction into a series of smaller transactions, 
+where each step is a local transaction within a service. If a step fails, compensating transactions undo the previous steps.
+Example: In an e-commerce system, if an order service processes an order but the payment fails, 
+the saga will trigger compensating transactions to cancel the order.
+-------------------------------------------------------------------------------------------------------------------------------------
+Retry Pattern:
+Problem: Transient failures (e.g., network issues, temporary unavailability) can cause microservices to fail.
+Solution: The Retry pattern automatically retries failed operations after a short delay, helping to recover from temporary failures.
+Example: A payment service retries a transaction in case of a network glitch, before marking it as failed.
+-------------------------------------------------------------------------------------------------------------------------------------
+Bulkhead pattern allocates resources differently to each service in microservice architecture

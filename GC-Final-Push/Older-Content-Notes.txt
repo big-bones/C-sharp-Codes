@@ -1,0 +1,21 @@
+MVC is architecture pattern that divides the project into three modules Model,View and Controller 
+Controller binds the view and model
+Static content is stored in wwwroot folder like js,static images...etc
+Razor is a view engine it is a markup syntax that helps where we can mixup HTML and C# code
+----------------------------------------------------------------------------------------------------------------
+Web Forms : Web application framework to build data driven web apps with drag and drop, event driven programming
+model
+It allows developers to build applications through web forms like approach without complexitites of http,html
+It is event driven similar to window forms server handles the events like button_click
+Postback model means each interaction with server reloads the entire page 
+View State stores the state between postbacks
+There are .aspx pages that have html and server side controle there are code behind files to handle all the
+event handling logic(like on_button_click) 
+The two files other than the html + server side logic are
+.aspx.cs and .aspx.designer.cs
+These are partial classes one is used for event handling logic second is other part of partial class that basically
+bridges the UI and the server side logic(in this case .aspx.cs file)
+aspx is a view engine
+----------------------------------------------------------------------------------------------------------------
+WinForms : 
+----------------------------------------------------------------------------------------------------------------
