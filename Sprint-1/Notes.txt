@@ -12,10 +12,12 @@ CLR , Base Class Library , Framework Class Library
 CLS : Common Language Specification
 CLS defines common ways to define methods and other entities so that the MSIL code of all
 languages across the .NET framework is similar for interporatbility
--------------------------------
-Memory management is also done through the garbage collection in .NET framework
-Objects are allocated space in managed in heap and the memory is freed accordingly using garbage collection
--------------------------------
+-------------------------------------------------------------------------------------------------------------
+Memory Management in CLR is done by Memory Manager, Garbage Collector Memory Manager works with OS to find 
+available memory which is later managed by Garbage Collector
+Large Object Heap is a special place in heap where larger objects are stored to avoid fragmentation in case
+of collection by garbage collector
+-------------------------------------------------------------------------------------------------------------
 CTS : Common Type System
 1.Part of CLR
 2.CTS defines how types are declared, used, and managed in the runtime. By providing a standardized type system,        
@@ -193,4 +195,16 @@ After it frees memory it performs compaction to avoid any external fragmentation
 We should use Dispose and use GC.SupressFinalize()
 destructor is also called Finalizer()
 Finalize method call internally all the methods that are available to use Finalize()
-
+--------------------------------------------------------------------------------
+Optional parameters must appear after all the required parameters they can be given 
+or not in the arguments default value is usually provided 
+example : Method(int required1,int required2,string optional = "Default")
+Name Arguemnts are different order of arguments can be passed instead of what is the
+order of parameters in the method definition
+Method(string userName,string age)
+Main(){
+   Method(age : 24,userName : "Sarang")
+} 
+--------------------------------------------------------------------------------
+params int [] arr has to be last parameter  does not need to be only
+--------------------------------------------------------------------------------

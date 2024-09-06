@@ -2,6 +2,19 @@ MVC is architecture pattern that divides the project into three modules Model,Vi
 Controller binds the view and model
 Static content is stored in wwwroot folder like js,static images...etc
 Razor is a view engine it is a markup syntax that helps where we can mixup HTML and C# code
+viewbag is dynamic does not need type casting
+viewdata is uses key value pairs of type objects needs explicit casting
+tempdata is used to pass data from action method to action method
+app_start folder has RouteConfig.cs, BundleConfig.cs files etc..
+RouteConfig.cs was used in MVC for adding routes like conventional routing(before core mvc)
+BundleConfig is basically bundling the js and css files to avoid multiple http request during a rendering 
+of page on client side this optimizes the performance
+when you do return View(student)
+The view folder should have /View/[ControllerName]/[ActionMethodName]
+@model directive tells a view what kind of data can be expected from controller
+example : IEnumerable<MvcExample.Models.Student> List of students can be returned from controller
+View("CustomViewName",students) explicitly defined view name
+razor and aspx are view engines like ejs
 ----------------------------------------------------------------------------------------------------------------
 Web Forms : Web application framework to build data driven web apps with drag and drop, event driven programming
 model

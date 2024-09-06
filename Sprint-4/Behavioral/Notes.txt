@@ -19,4 +19,5 @@ Interface(state interface) that has methods that should have different implement
 Concrete implementations of these methods
 Context class that has reference of state interface this interacts with the client class
 invoking same method changes the state of our object
+Follows open closed principle, can have too many classes eventually
 -------------------------------------------------------------------------------------------------------------
