@@ -10,3 +10,13 @@ Concrete Strategies : Implementation of strategy interface
 Context : Maintains reference of strategy interface and interacts with client depending on their need new
 algorithms are created
 -------------------------------------------------------------------------------------------------------------
+State : When the internal state of object changes it can alter it's behavior 
+Imagine a case where you have fixed number of states and your object goes from one fixed state to other
+like an automata, if we do this directly we will need to use something like switch case and inside a change
+state method where from one fixed state you go to next this is not good for open closed principle
+Actors involved:
+Interface(state interface) that has methods that should have different implementations in different states of object
+Concrete implementations of these methods
+Context class that has reference of state interface this interacts with the client class
+invoking same method changes the state of our object
+-------------------------------------------------------------------------------------------------------------
