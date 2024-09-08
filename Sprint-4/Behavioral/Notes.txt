@@ -46,3 +46,13 @@ Invokers : The buttons and Ctrl + C command
 This follows SRP and makes the code more modular
 Reusability of code is biggest advantage
 -------------------------------------------------------------------------------------------------------------
+Observer design pattern : When state of subject (publisher) changes all the observers are notified of the change
+The publisher does not need to know underlying details of subscriber they just issue a callback and that is 
+that
+Actors:
+Interface Subject : To add,remove and notify subscribers
+Concrete subject : To actually do these methods
+Interface Observer : Give update 
+Concrete Observer : Concrete implementation of update
+
+-------------------------------------------------------------------------------------------------------------
