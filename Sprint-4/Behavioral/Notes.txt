@@ -21,3 +21,28 @@ Context class that has reference of state interface this interacts with the clie
 invoking same method changes the state of our object
 Follows open closed principle, can have too many classes eventually
 -------------------------------------------------------------------------------------------------------------
+Chain of responsiblities : Gives a chance to object to pass a requeust along a chain of potential handlers
+giving the chance to resolve the request it decouples sender of the request from the actual processor of the
+request
+Actors involved:
+Abstract Handler : Gives a template for the concrete handlers
+Concrete Handler : Concrete implementation of handling request 
+Client : Initiates request that needs to be handled
+You have to manually set the next handler in the chain for each handler
+-------------------------------------------------------------------------------------------------------------
+Command Pattern is used for decoupling between request handler and the invoker of the request let's say
+that you have three ways to save(persist to hard disk) data in the word document
+There is a save button on task bar
+There is a save button in edit options at the top of task bar
+And there is a Ctrl + C option
+If the event handler for all these cases were to directly call the FileStream append method to persist to the 
+hard disk this would create redundancy and also vioaltes srp
+We use a command as an intermediate that handles the event of saving to the disk
+In case of say voice control save we need not repeat the same logic again making the code modular
+Command Interface : Will have methods to interact with actual resolver(in this case something that saves data)
+Concrete Command : Implements the interface
+Reciver : The class that would ideally save to the disk in this case(maybe custom implementation of FileStream class)
+Invokers : The buttons and Ctrl + C command
+This follows SRP and makes the code more modular
+Reusability of code is biggest advantage
+-------------------------------------------------------------------------------------------------------------

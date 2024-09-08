@@ -21,6 +21,7 @@ BCNF : No FD between Non-Prime and Prime attributes
 again split the table and then join to get data
 Data partitioning : Split a large table intog groups horizontally such that each group has some connection
 for example on basis of salary range this is useful in optimizing query performance
+this is range partiotioning there are other examples like hash partitioning too
 Data Sharding : The scope is not limited to the same table but in fact this is partitioning across
 mutliple data storages and databses this is done to make it more scalable
 Partitioning is done based on some set of attributes
@@ -77,6 +78,7 @@ temporary tables are stored in tempdb database
 you can create indexes,pk,constraints etc.. on them
 local scope temp tables : create table #table_name
 global scope temp tables : create table ##table_name
+tempdb database
 Views or functions can not be created on them
 -----------------------------------------------------------------------------------------------------------
 Functions and Stored procedures are both stored in db by precompiling and creating a execution plan
@@ -223,7 +225,7 @@ Task is basically an abstraction a unit of work that is expected to be executed 
 Thread vs Task
 Task is preffered over thread because:
 Higher Abstraction No need to create threads on your own done internally
-It uses Thread Pooling internally for better resource management
+It uses Thread Pooling inte	rnally for better resource management
 Exception Handling
 Coordinate using .WhenAll and .WhenAny 
 Also used in PLINQ
