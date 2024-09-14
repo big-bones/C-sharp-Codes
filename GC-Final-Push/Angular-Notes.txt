@@ -1,19 +1,41 @@
-Modules are collections of services,components it's a logical unit that encapsulates related
-components
-Componets : They encapsulate the behavior and UI of the part of the application
-Services are injectable objects that provide functionality to components
-Components are building blocks of Angular applications
-class in component can have hooks and can handle events bind data etc..
-Get data into the component using @Input
-And send data to other component using @Output
+Services are injectable objects that provide specific functionality or buisness logic
+to other components 
+We can make a service available across the application if the provideIn property is set to root
+in order to make the service specific to the module or component we need to add it in the
+provider array of the specific entities by removing provideIn property in @Injectable
+@Input decorator does property binding from parent to child component
+@Output marks the property in child component as output event that parent listens to
+pass EventEmitter object
 -------------------------------------------------------------------------------------------------
-Directives can change the DOM structure or the make changes to already existing DOM elements
+Component is a basic building block of the angular application it has HTML , CSS and a TS class
+that contains logic and behavior
+They are used to define specific UI parts of the application 
+They encapsulate the UI and behavior of the application at the smallest level
+@Component decorator is used
+selector is like an id for each component
+-------------------------------------------------------------------------------------------------
+Module is essentially a collection of Components , Services that are relevant together
+Defined by @NgMoule decorator
+imports : refert to other modules this module uses
+providers : services it uses
+declarations are components inside of the module
+bootstrap is the components that should be loaded when application starts
+-------------------------------------------------------------------------------------------------
+Directives are used to manipulate DOM and extend the functionality of HTML elements
 3 type of Directives:
-Component
+Component is a special kind of directive it is called directive with a view
 Structural : They can add or remove the elements from DOM 
 *ngFor,*ngIf and *ngSwitch 
 Attribute : Make changes to already existing DOM elements(like changing color)
 [ngClass] or [ngStyle]
+ngStyle makes inline changes
+-------------------------------------------------------------------------------------------------
+Data binding in angular is used to maintain data consistency across view and the class file 
+Interpolation {{}} -> Component -> View
+Property Binding [] -> Component -> View
+Event Binding () -> View -> Component
+Two way binding [(ngModel)] -> View -> Component , Component -> View 
+Interpolation only works with string if we need bool values or something it won't work
 -------------------------------------------------------------------------------------------------
 ngModel is a directive that helps with two way data binding
 from DOM to component and from component to DOM
@@ -23,6 +45,10 @@ It is a part of FormsModule component
 <input type="text" [(ngModel)] = "username"/>
 <h3>This is your username : {{username}} </h3>
 ngModel is not used with buttons
+-------------------------------------------------------------------------------------------------
+Decorators are special function that provide metadata about classes or properties and allow angular
+to elements to modify their behavior at runtime
+@Input,@Output,@NgModel,@Component,@Injectable
 -------------------------------------------------------------------------------------------------
 Hooks are methods that run in the life cycle of the component
 ngOnChanges() hook is the method that tracks the changes in the input property
@@ -64,7 +90,11 @@ Pipes are used to format the data in the view
 example {{title | uppercase}} this string interpolation formats the data in the view to uppercase
 
 -------------------------------------------------------------------------------------------------
-Types of Life cycle hooks
-Types of data binding
-Types of Directives
-@Input and @Output decorators
+-------------------------------------------------------------------------------------------------
+Observables
+HttpClient required modules
+LifeCycle hooks in angular
+-------------------------------------
+Routing 
+Route Guards
+Lazy Loading
