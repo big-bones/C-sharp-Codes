@@ -51,8 +51,8 @@ class Program
         Person clone = (Person)p.Clone();
         clone.Id = 2;
         clone.Name = "Sarang2";
-        clone.Address.Country = "Porkistan";
-        clone.Address.City = "Chudol";
+        clone.Address.Country = "Something";
+        clone.Address.City = "Somewhere";
         Console.WriteLine(p);
         Console.WriteLine(clone);
     }

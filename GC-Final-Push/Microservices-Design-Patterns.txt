@@ -34,4 +34,3 @@ Problem: Transient failures (e.g., network issues, temporary unavailability) can
 Solution: The Retry pattern automatically retries failed operations after a short delay, helping to recover from temporary failures.
 Example: A payment service retries a transaction in case of a network glitch, before marking it as failed.
 -------------------------------------------------------------------------------------------------------------------------------------
-Bulkhead pattern allocates resources differently to each service in microservice architecture

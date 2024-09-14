@@ -1,0 +1,134 @@
+Type Safety means operations are done on compatible data types that helps avoid errors that could have been
+Inheritance can be single,multilevel,hierarchial multiple and hybrid
+OOP principles help us make the code more modular , flexible , readable and scalable
+Encapsulation is binding the behavior and the state of the entity programatically this is done using class
+it also means restricting the acess to the state of the class through access modifiers to restrict the flow of data
+Abstraction means hiding unecessary details and showing only what is relevant
+The difference between them is one is design level issue and one is implementation level issue
+Inheritance is basically inherting the behavior or state of the base entities in order to make the code more reusable
+Polymorphism is again used to make the more  we have 2 types of polymorhpism runtime and static 
+Runtime polymorphism is achieved through inheritance and method overriding it is when the reference of base class 
+call the method of derived class on the derived class object this helps with loose coupling
+--------------------------------------------------------------------------------------------------------------------------
+Generics basically enable us to give a type argument place holder to different entities and the type can be set
+dyhnamically Uses include Reusability,Type Safety,More efficient than having object type(boxing and unboxing overhead)
+--------------------------------------------------------------------------------------------------------------------------
+ADO .net is basically a set of classes and interfaces that provide us with a way to interact with various data sources
+through our program such as relational databases, XML etc through connected and disconnected approach
+Different Data providers are OleDb,Odbc,SqlClient...
+Components include
+Data providers like SqlClient
+Command Object : SqlCommand
+Data Reader : SqlDataReader
+Data Adapter : SqlDataAdapter
+DataSet,DataTable,DataReader,DataAdapter
+D:Connection is not open data is retrived and stored in memory
+C:Results of the query are stored in buffer on db side and a forward only and readonly iterator is used to read data
+D:Useful when the calls are infrequent to get data and work needs to be done on the data
+C:Useful if the calls are frequent and short in duration
+D:Used with DataAdapter and DataSet 
+C:Used with DataReader
+D:Mulitple users need to cordinate in order to update database
+C:Easier to maintain concurrency through transactions because not a lot of data can be different 
+More granular approach and faster in execution 
+May face issues like sql injection unless handled with care 
+--------------------------------------------------------------------------------------------------------------------------
+Concurrent Programming : It is a conept where basically multiple processes are running simultaneously through context switches
+and use of time slice for each process the advantage is that no process is starving and the system is more responsive
+Parallel Programming is actually when each process is actually executing on different cores or processors and running 
+simultaneously
+Thread is a smallest unit of work that can execute independent
+Task is abstraction of unit of work that is expected to be ran on a different Thread
+
+Synchronization primiteves are useful to avoid the race conditions when multiple threads are trying to access some shared resource
+or critical section
+Lock is a synchronization primitive 
+Monitor : Monitor.Enter() and Monitor.Exit() need to do exception handling on our own
+Sempahore : If a shared resource has multiple instances and multiple threads are trying to access this resource we create sempahore.
+If there is an instance of resource that can still be used by a thread Wait() will reduce the count of semaphore
+If the count is 0 thread goes in blocking state Release() releases an instance and a thread is removed from blocking state
+Mutex is a syncronization primitive that is used when multiple processes are trying to access a shared resource
+This is used in inter process synchronization as well as intra process synchornization
+Spin locks are non blocking if a thread is already inside critical section and another thread is trying to access the cs
+The current thread will not be blocked this is used when the time for which lock is taken is small
+Monitor can provide more granular functionality 
+ContinueWith is used to chain the tasks
+ConfigureAwait is used to preserve the context specially in UI threads after await is executed
+-----------------------------------------------------------------------------------------------------------------------------
+REST : These are principles that help in creating networked applications they have certain properties
+like stateless meaning that each request provided by the client should have complete information on how to process the request
+it also relies on client server architecture which allows them to scale independently
+Web API are superset of REST, WebAPI also include other architectural principles like GraphQL or SOAP
+API pipeline is basically a series of components through which your request and respone object goes through
+Middlewares are components in api pipeline that are executed in the order in which they are defined in Program.cs file
+Request and response object goes each middleware 
+It can modify the request object and pass it to next middleware
+Similary it can modify response object before sending to the client
+CORS : Cross Origin Resource Sharing is done to restrict the access for requests outside of domain
+We can change the policy to accept from specified domains,specific types of http methods etc
+This is done to enhance the security 
+API Gateway act as single entry points for all the requests which helps in performing tasks like authentication among other
+things
+It also helps in load balancing
+It can provide security over DDOS attacks by using rate limiters
+-----------------------------------------------------------------------------------------------------------------------------
+Scoped means that in the scope(generally a single request) any service that requires the object of that class would recieve
+the same instance meaning that if DbContext is created in repository and say for some reason also in service layer it will
+be same instance through DI
+Transient means that each DI would create new instance service layer and repo layer both would have gotten different instances
+Singleton means once created that is your object now
+-----------------------------------------------------------------------------------------------------------------------------
+EF is a Object Relation Mapper that enables developers to work with database using .net objects(Plain Old CLR objects)
+Tracking in EF core is done by DbContext in the scope of it's lieftime(it is generally scoped too)
+any entity that is retrived is automatically tracked in the scope of DbContext this is done to produce sql queries in case
+of SaveChanges()
+Navigation properties in EF core allow you to navigate from one entity to related entities, like foreign keys
+Three ways to get Navigation Properties:
+Eager : var Students = students.FirstOrDefault(x => x.Grade == 'A').Include(s => s.Courses).ToList();
+Loads all the realted properties using Include() or ThenInclude()
+Lazy : Needs packages to be installed EFProxy package needs to be installed
+Navigation properties would be loaded when called 
+This creates the problem of N+1 query issue
+-----------------------------------------------------------------------------------------------------------------------------
+Reflection is the process of inspecting metadata about classes,assemblies etc at runtime
+It allows you to dynamically interact with methods,properties without having idea about them at compile time
+Acitvator.CreateInstance(typeof(MyClass)) //creates instance
+GetProperties() , GetMethods(), Invoke(instance,parameters)
+Advantages include being able to inspect metadata at runtime in case of creation of plugins or testing frameworks this maybe
+used	
+It can be slow since it is being done at runtime and also not secure since we can bypass encapsulation which leads to exposing
+the internal code
+-----------------------------------------------------------------------------------------------------------------------------
+Test Doubles basically replace real dependencies of system which is being tested Moq is used to do that
+If you try to Moq a class and the method is not virtual then it can not override it and create a mock method instead real
+method would be executed
+var mock = Mock<IService>()
+mock.Setup(x => x.GetData()).Returns("Got Data")
+var something = controller.GetData(mock.Object)
+Mock needs to create objects of dependencies
+ITestOutputHelper can help with debugging through test logs if the test case fails
+output.WriteLine("At line number...")
+Fixtures are used to setup data that would be used across test (setup and teardown)
+setup is done in the constructor and teardown is done using IDispose
+Inmeory database is used to test repo and interaction of DbContext
+It should usually be for the scope of test so there are no conflicts in the testing
+-----------------------------------------------------------------------------------------------------------------------------
+IIS and Kestrel
+appsettings can be different for development and production settings depending on the evniorment appsettings.json is overriden
+launchsettings is used for development evn
+-----------------------------------------------------------------------------------------------------------------------------
+Stored Procedures and Functions are a set of pre compiled queries stored in the db memory that can be executed as a one unit
+Complicated operations can not be done in functions or even transactions
+Returns scalar or table
+Stored Procedure does not return a value but can have out parameter
+Functions can be used in SP or even inside select statement that can be done with stored procedure
+Views are basically virtual tables based on the result of some sql query views ideally do not store data unless materialized
+They are helpful in abstracting data
+We can also add permissions on views increasing the security
+Materialized views can store complex operations result and make query faster
+Triggers are special types of stored procedures that can be executed instead of a query or after a query
+They are helpful in maintaining integrity and maintaining logs etc...
+But they have huge overhead
+Sometimes a trigger and lead to execution of other triggers making the operations very costly
+Also it is difficult to debug in these cases
+-----------------------------------------------------------------------------------------------------------------------------

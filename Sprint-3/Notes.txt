@@ -225,7 +225,7 @@ Task is basically an abstraction a unit of work that is expected to be executed 
 Thread vs Task
 Task is preffered over thread because:
 Higher Abstraction No need to create threads on your own done internally
-It uses Thread Pooling inte	rnally for better resource management
+It uses Thread Pooling internally for better resource management
 Exception Handling
 Coordinate using .WhenAll and .WhenAny 
 Also used in PLINQ
@@ -279,7 +279,7 @@ Task.WaitAll blocks the calling thread until all tasks complete,
 whereas Task.WhenAll returns a task that can be awaited, allowing for non-blocking asynchronous code.
 syntax : 
 Task.WaitAll(a,b..)
-Task.Wait(a,b) any of the tasks is executed the Thread is unblocked
+Task.WaitAny(a,b) any of the tasks is executed the Thread is unblocked
 await Task.WhenAll(a,b...) returns as Task that is completed when all the tasks in WhenAll are completed
 Aggreate Exceptions in WaitAll and WhenAll
 CancellationToken comes into picture to shut down long running operations
@@ -359,4 +359,3 @@ If we set the configureawait to false then we might execute the continuation tas
 context which could be saved states of the previous synchronus code
 So if we want that after await we should use same thread to run we use configurewait
 -----------------------------------------------------------------------------------------------------------
-Server=travelrecommendations.database.windows.net;Database=Team5-TR-Dev-QA;User ID=epmtr;Password=epm@3007;TrustServerCertificate=True

@@ -72,4 +72,37 @@ begin
 	on inserted.BookID = deleted.BookID
 end
 ---------------------------------------------------------------
+select Employees.FirstName , Employees.LastName , 
+case
+	when Departments.DepartmentID is null then 'No Department'
+	else convert(varchar,Departments.DepartmentId) 
+ end as Department
+from Employees left join Departments
+on Employees.DepartmentID = Departments.DepartmentID
+---------------------------------------------------------------
+select 
+case 
+	when Departments.DepartmentID is null then 'No Departments'
+	else convert(varchar,Departments.DepartmentId)
+	end as ID, 
+Avg(SalaryAmount) as Avg_Salary
+from Employees left join Departments 
+on Employees.DepartmentID = Departments.DepartmentID
+left join Salaries 
+on Salaries.EmployeeID = Employees.EmployeeID
+where Departments.DepartmentId <> 2
+group by Departments.DepartmentID
+having avg(salaryamount) > 5000
+---------------------------------------------------------------
+with cte_delete_duplicates as(
+	select Employees.EmployeeID,
+	ROW_NUMBER() over (partition by DepartmentID order by HireDate desc) as Row_Num
+	from Employees
+)
+delete from Employees
+where EmployeeID in (
+	select EmployeeID from 
+	cte_delete_duplicates where Row_Num > 1
+)
+---------------------------------------------------------------
 

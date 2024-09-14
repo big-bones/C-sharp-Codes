@@ -4,6 +4,8 @@ Static content is stored in wwwroot folder like js,static images...etc
 Razor is a view engine it is a markup syntax that helps where we can mixup HTML and C# code
 viewbag is dynamic does not need type casting
 viewdata is uses key value pairs of type objects needs explicit casting
+Do not persist data from one action to other action that is why we need TempData
+TempData is used to pass data from one request to other as the data is not persisted for ViewBag and ViewData in this case
 tempdata is used to pass data from action method to action method
 app_start folder has RouteConfig.cs, BundleConfig.cs files etc..
 RouteConfig.cs was used in MVC for adding routes like conventional routing(before core mvc)
@@ -15,6 +17,10 @@ The view folder should have /View/[ControllerName]/[ActionMethodName]
 example : IEnumerable<MvcExample.Models.Student> List of students can be returned from controller
 View("CustomViewName",students) explicitly defined view name
 razor and aspx are view engines like ejs
+RedirectToAction
+RedirectToRoute
+PartialView
+View
 ----------------------------------------------------------------------------------------------------------------
 Web Forms : Web application framework to build data driven web apps with drag and drop, event driven programming
 model

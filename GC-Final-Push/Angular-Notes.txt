@@ -1,0 +1,70 @@
+Modules are collections of services,components it's a logical unit that encapsulates related
+components
+Componets : They encapsulate the behavior and UI of the part of the application
+Services are injectable objects that provide functionality to components
+Components are building blocks of Angular applications
+class in component can have hooks and can handle events bind data etc..
+Get data into the component using @Input
+And send data to other component using @Output
+-------------------------------------------------------------------------------------------------
+Directives can change the DOM structure or the make changes to already existing DOM elements
+3 type of Directives:
+Component
+Structural : They can add or remove the elements from DOM 
+*ngFor,*ngIf and *ngSwitch 
+Attribute : Make changes to already existing DOM elements(like changing color)
+[ngClass] or [ngStyle]
+-------------------------------------------------------------------------------------------------
+ngModel is a directive that helps with two way data binding
+from DOM to component and from component to DOM
+It is a combination of properties and event binding
+And the syntax is a combination of both of them
+It is a part of FormsModule component 
+<input type="text" [(ngModel)] = "username"/>
+<h3>This is your username : {{username}} </h3>
+ngModel is not used with buttons
+-------------------------------------------------------------------------------------------------
+Hooks are methods that run in the life cycle of the component
+ngOnChanges() hook is the method that tracks the changes in the input property
+input properties in component are specified with @Input decorators
+It takes in parameter of type SimpleChanges that can track the previous and current values of
+the input decorator that we have mentioned this is useful in passing data from the parent component
+to the child component, SimpleChanges is object(probably a JSON object)
+-------------------------------------------------------------------------------------------------
+ngOnInit() is the hook called only once in the lifecylcle of the component this is called when
+the component is fully initialized this method is usually used to set some initial properties
+or run some api's to populate initial properties
+Why is constructor not used?
+Constructor is called when the component is used say a test component is used in app-component
+html then the object of test component class is created and constructor is called
+but if test-component has some property that is taking data from parent component(app-component)
+in this case then this does not work the reason being that the component(test-component)
+is not yet fully initialized this is where we use ngOnInit()
+ngOnInit() is called once after component is fully initialized 
+Any kind of interaction with DOM or setting up @Input properties should be done by ngOnInit()
+Constructor is usually used for DI(Dependency Injection)
+-------------------------------------------------------------------------------------------------
+ngDoCheck() detects every change does not even need to be something with @Input decorator
+example say that you have a User object in the parent component that changes just the firstName
+not the reference of complete object ngOnChanges() only detects changes to the @Input when
+the reference is changed but any kind of change can be detected by ngDoCheck()
+Do not use them in the same component (ngDoCheck() and ngOnChanges())
+-------------------------------------------------------------------------------------------------
+<ng-content> is an angular element that can pass content from parent to child components
+@Input can not pass HTML or css that is where this is used
+-------------------------------------------------------------------------------------------------
+ngAfterContentInit() is used when ever we use <ng-content>
+ngAfterContentChecked() is called after every change in the content
+ngAfterContentInit() is called only once when the content is passed for the first time not after
+that later only ngAfterContentChecked() is called
+-------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------
+Pipes are used to format the data in the view
+example {{title | uppercase}} this string interpolation formats the data in the view to uppercase
+
+-------------------------------------------------------------------------------------------------
+Types of Life cycle hooks
+Types of data binding
+Types of Directives
+@Input and @Output decorators
