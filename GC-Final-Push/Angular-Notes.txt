@@ -84,17 +84,31 @@ ngAfterContentChecked() is called after every change in the content
 ngAfterContentInit() is called only once when the content is passed for the first time not after
 that later only ngAfterContentChecked() is called
 -------------------------------------------------------------------------------------------------
-
+Standalone components are self contained and need not be referenced in NgModel they handle their
+own provider and imports and can exist independently
 -------------------------------------------------------------------------------------------------
 Pipes are used to format the data in the view
 example {{title | uppercase}} this string interpolation formats the data in the view to uppercase
-
 -------------------------------------------------------------------------------------------------
+Observables: They are used to handle asynchronus data streams that returns the data over some time
+Observables emit multiple values over time
+It does not do anything unless subscribed 
+You can cancel it anytime you want
+Essential while working with HttpClient modules
 -------------------------------------------------------------------------------------------------
-Observables
-HttpClient required modules
-LifeCycle hooks in angular
--------------------------------------
-Routing 
-Route Guards
-Lazy Loading
+Routing is used for navigation between different views
+for standalone components define the route array in the main.ts file directly
+Otherwise do so in AppRoutingModule import this module in AppModule
+use <router-outlet></router-outlet> in your app-component 
+you can inject Route service and do programatic navigation using route.navigate['/']
+use ActivatedRoute to get infor about current route 
+-------------------------------------------------------------------------------------------------
+Route guards are used to control access to routes in Angular they run logic before a route is activated
+and then they redirect accordingly 
+CanActivate used to check for authorization and authentication
+CanDeactivate if you have unsaved state wouldn't let you leave the route
+in route array with path and component you can define canActivate to make sure the guard works
+-------------------------------------------------------------------------------------------------
+Lazy loading basically defers loading of modules until they are required implemented using
+loadChildren in route array
+-------------------------------------------------------------------------------------------------

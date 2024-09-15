@@ -6,6 +6,10 @@ Use the Adapter class when you want to use some existing class, but its interfac
 with the rest of your code.
 This follows SRP and Open Closed principle
 But number of classes increase depdending on new adapters
+Adaptee
+Interface for Adapter
+Adapter
+Client
 -------------------------------------------------------------------------------------------------------------
 Composite:Defines a common interface to treat the complex and simple objects similarly such that this structure
 creates a tree like structure
@@ -15,8 +19,11 @@ harder to understand
 Follows Open Closed Principle
 Actors include : Leaf,Componenet(Interface),Composite
 -------------------------------------------------------------------------------------------------------------
-Bridge:Bridge let's you split set of closely related classes into two separate hierarchies—
-abstraction and implementation—which can be developed independently of each 
+Bridge : If we have a system of closely related classes capable of creating complicated objects together
+we make use of bridge pattern
+Composition over Inheritance
+This allows us to create a set of different products without explosion of subclasses
+Seperation of Implementation from Abstraction 
 When we want to extend the class in independent dimensions
 It follows SRP and Open Closed principle
 Not similar to abstract factory because it creates objects of classes that work well together not all combinations
@@ -31,4 +38,9 @@ for managing their lifecycle
 -------------------------------------------------------------------------------------------------------------
 Decorator : Add a functionality at runtime instead of using inheritance we use composition 
 Extend the behavior without subclassing
+We do composition over inheritance to make more complex types
+Interface Component
+Concrete Component
+Abstract Decorator -> Should have reference of Interface Component
+Concrete Decorator
 -------------------------------------------------------------------------------------------------------------

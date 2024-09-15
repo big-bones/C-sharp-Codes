@@ -2,6 +2,10 @@ Behavioral Patterns are concerned about how different objects interact with each
 -------------------------------------------------------------------------------------------------------------
 Mediator : Promotes loose coupling between the objects by avoiding direct interaction with each other and
 promoting the interaction through Mediator
+Mediator Interface
+Concrete Mediator that has reference to all the objects
+Abstract Object
+Concrete Object has reference of InterfaceMediator
 -------------------------------------------------------------------------------------------------------------
 Strategy : Creates a family of algorithms, encapsulate each one and make them interchangable
 Actors involved are:

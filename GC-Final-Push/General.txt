@@ -64,6 +64,14 @@ Middlewares are components in api pipeline that are executed in the order in whi
 Request and response object goes each middleware 
 It can modify the request object and pass it to next middleware
 Similary it can modify response object before sending to the client
+Filters are similar to middlewares as in they execute before and after something and can modify the request or response
+but unlike Middlewares they are granular and can only be executed on Actionmethod or a controller or globally
+5 filters are:
+Authentication
+Resource
+Action -> OnActionExecuting(Context) OnActionExecuted(Context) implement Attribute,IActionFilter
+Exception
+Result
 CORS : Cross Origin Resource Sharing is done to restrict the access for requests outside of domain
 We can change the policy to accept from specified domains,specific types of http methods etc
 This is done to enhance the security 
@@ -99,6 +107,14 @@ used
 It can be slow since it is being done at runtime and also not secure since we can bypass encapsulation which leads to exposing
 the internal code
 -----------------------------------------------------------------------------------------------------------------------------
+Serialization is process of persisting the sate of the object so it can be passed and transferred easily and later reconstructed
+System.Text.Json.Serialization 
+JsonSerializer.Serialize(perons), JsonSerializer.Deserialize<Person>(jsonString)
+System.Xml.Serialization
+var serializer = XmlSerializer(typeof(Person))
+serializer.Serialize(stringwriter,person)
+(Person)serializer.Deserialize(stringReader)
+-----------------------------------------------------------------------------------------------------------------------------
 Test Doubles basically replace real dependencies of system which is being tested Moq is used to do that
 If you try to Moq a class and the method is not virtual then it can not override it and create a mock method instead real
 method would be executed
@@ -131,4 +147,21 @@ They are helpful in maintaining integrity and maintaining logs etc...
 But they have huge overhead
 Sometimes a trigger and lead to execution of other triggers making the operations very costly
 Also it is difficult to debug in these cases
+-----------------------------------------------------------------------------------------------------------------------------
+Paritioning is done using partition key could be hashing or range based this is done to divide the database into differnt
+parts for quick query retrival
+Sharding is done across different databases in a distributed system to make the system horizontally scalable
+Cosmos db has multiple models like documents and graph based database
+Container is like a table and document is basically a tuple
+-----------------------------------------------------------------------------------------------------------------------------
+IOC Inversion of control is a design principle that says that objects that are being used by a class should be created by
+external entity or framework
+DI is a implementation of this IOC which delegates object creation to framework
+-----------------------------------------------------------------------------------------------------------------------------
+DbContext basically is a session with db it manages connection,tracking and makes use of Unit of work design pattern
+basically meaning that sql queries are created on .SaveChangesAsync()
+DbSet basically enables a developer to make the CRUD operations with DB using methods like Find,Add,Remove,Update it also 
+can make use of Linq syntax
+combined they form abstraction over the interaction with the database
+-----------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------------------------
