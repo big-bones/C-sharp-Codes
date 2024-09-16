@@ -36,5 +36,11 @@ These are partial classes one is used for event handling logic second is other p
 bridges the UI and the server side logic(in this case .aspx.cs file)
 aspx is a view engine
 ----------------------------------------------------------------------------------------------------------------
-WinForms : 
+WinForms : Similar to Web Forms use partial classes and event hadlers
+----------------------------------------------------------------------------------------------------------------
+WCF: Is a framework in .net used to create applications that can communicate through various protocols 
+like HTTP,TCP etc.
+Used in reliable messaging 
+Communication happens through SOAP
+Windows Communication Foundation
 ----------------------------------------------------------------------------------------------------------------

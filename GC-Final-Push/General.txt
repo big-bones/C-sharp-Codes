@@ -39,7 +39,7 @@ Parallel Programming is actually when each process is actually executing on diff
 simultaneously
 Thread is a smallest unit of work that can execute independent
 Task is abstraction of unit of work that is expected to be ran on a different Thread
-
+Asynchronus programming is basically when we can execute a Task in background without blocking the main execution thread
 Synchronization primiteves are useful to avoid the race conditions when multiple threads are trying to access some shared resource
 or critical section
 Lock is a synchronization primitive 
@@ -164,4 +164,10 @@ DbSet basically enables a developer to make the CRUD operations with DB using me
 can make use of Linq syntax
 combined they form abstraction over the interaction with the database
 -----------------------------------------------------------------------------------------------------------------------------
+JIRA is project management tool used for tracking the progress of the project it helps with tracking of tasks,bugs etc..
+visually
+Waterfall follows one step after another model from requirement gathering to planning the coding then testing kind of approach
+Has heavy documentation and no user feed back after requirement gathering
+Agile is an iterative software development methodology where project is divided in sprints each sprint produces some meaningful
+work and the sprint ceremonies include feed back from all the stake holders including Product Owners
 -----------------------------------------------------------------------------------------------------------------------------
