@@ -11,7 +11,7 @@ class Program
     
     static void Main()
     {
-        using (SqlConnection conn = new SqlConnection("Data Source=EPINHYDW0FCC\\SQLEXPRESS;Initial Catalog=learming;Integrated Security=SSPI"))
+        using (SqlConnection conn = new SqlConnection(""))
         {
             conn.Open();
             using (SqlTransaction ctr = conn.BeginTransaction())
